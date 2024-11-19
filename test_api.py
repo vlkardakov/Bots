@@ -54,7 +54,6 @@ def gpt_thinks(a,t, do_ans, act):
         'do_ans':do_ans
     }
     response = requests.post(f'{ngrok_domain}/', data=data)
-    response = requests.post(f'{ngrok_domain}/', data=data)
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")
     print(type(a))
