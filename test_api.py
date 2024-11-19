@@ -56,7 +56,7 @@ def gpt_thinks(a,t, do_ans, act):
     response = requests.post(f'{ngrok_domain}/', data=data)
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")
-    print(type(a))
+    #print(type(a))
     end = time.time()
     latency = (end - start) * 1000  # В миллисекундах
     print(f"Задержка нейросети: {latency}")
