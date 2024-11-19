@@ -7,7 +7,6 @@
     <list default="true" id="b8b632ff-bdbc-4847-97cc-1081e6ec50bc" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/SmsToolsN/encode.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/amongUsParser/chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/SmsToolsN.py" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/SmsToolsN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/analysis.pyl" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/analysis.pyl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/clear_console.pyl" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/clear_console.pyl" afterDir="false" />
@@ -19,7 +18,6 @@
       <change beforePath="$PROJECT_DIR$/SmsToolsN/read_sms_to_excel.pyl" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/read_sms_to_excel.pyl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/read_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/read_testing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/amongUsParser/read-live.py" beforeDir="false" afterPath="$PROJECT_DIR$/amongUsParser/read-live.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
