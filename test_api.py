@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
-
+import os
+ngrok_domain=os.getenv("ngrok_domain")
 
 from memory import *
 import json
@@ -45,6 +46,7 @@ def gpt_thinks(a,t, do_ans, act):
         'do_ans':do_ans
     }
     response = requests.post('https://flexible-poorly-buck.ngrok-free.app/', data=data)
+    response = requests.post(f'{ngrok_domain}/', data=data)
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")
     print(type(a))
