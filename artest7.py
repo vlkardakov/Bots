@@ -9,7 +9,8 @@ from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
 from arestarmongus3 import send, _chat, what_step
 import os
-
+from dotenv import load_dotenv
+monum = int(os.getenv("monitor"))
 
 Enter = "{Enter}"
 def gettxt(sct_img):
@@ -25,7 +26,7 @@ def gettxt(sct_img):
 def img_for_author():
     with mss.mss() as sct:
         # Координаты и размеры области захвата
-        mon = sct.monitors[1]
+        mon = sct.monitors[monum]
         monitor = {
             "top": mon["top"] + 52,  # 100px from the top
             "left": mon["left"] + 275,  # 100px from the left
@@ -38,7 +39,7 @@ def img_for_author():
 def img_for_text():
     with mss.mss() as sct:
         # Координаты и размеры области захвата
-        mon = sct.monitors[1]
+        mon = sct.monitors[monum]
         monitor = {
             "top": mon["top"] + 38,  # 100px from the top
             "left": mon["left"] + 585,  # 100px from the left
@@ -67,7 +68,7 @@ def clean_string(s, bads):
 def islobby(template, threshold):
     with mss.mss() as sct:
         # Координаты и размеры области захвата
-        mon = sct.monitors[1]
+        mon = sct.monitors[monum]
         monitor = {
             "top": mon["top"] + 450,
             "left": mon["left"] + 1460,

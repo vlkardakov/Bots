@@ -4,10 +4,12 @@ import mss
 import cv2 as cv
 import numpy as np
 import random
-
+import os
+from dotenv import load_dotenv
+monum = int(os.getenv("monitor"))
 def find_news(template, threshold, y, x, target_count, do_click):
     with mss.mss() as sct:
-        mon = sct.monitors[1]
+        mon = sct.monitors[monum]
         monitor = {
             "top": mon["top"] + 2,  # 100px from the top
             "left": mon["left"] + 1486,  # 100px from the left
