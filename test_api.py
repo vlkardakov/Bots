@@ -1,8 +1,10 @@
 import aiohttp
 import asyncio
 import os
+from dotenv import load_dotenv
+load_dotenv()
 #os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
-ngrok_domain = os.environ["ngrok_domain"]
+ngrok_domain = os.getenv("ngrok_domain")
 from memory import *
 import json
 import time
