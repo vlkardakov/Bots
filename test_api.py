@@ -2,7 +2,12 @@ import aiohttp
 import asyncio
 import os
 from dotenv import load_dotenv
+import requests
+import time
 load_dotenv()
+
+
+
 #os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
 ngrok_domain = os.getenv("ngrok_domain")
 from memory import *
@@ -29,17 +34,18 @@ def clean_string(s, bads):
 
 
 def get_response(url):
+
         # Отправляем GET-запрос к указанному URL
         response = requests.get(url)
 
         # Проверяем, успешен ли запрос
         response.raise_for_status()  # Это вызовет исключение для ошибок HTTP
-
         # Возвращаем текст ответа
         return response.text
 
 
 def gpt_thinks(a,t, do_ans, act):
+    start = time.time()
     global result_coding
     data = {
         'a': a,
@@ -52,6 +58,9 @@ def gpt_thinks(a,t, do_ans, act):
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")
     print(type(a))
+    end = time.time()
+    latency = (end - start) * 1000  # В миллисекундах
+    print(f"Задержка нейросети: {latency}")
     if type(a) == "NameError":
         return "OK"
     typ = a[0]
