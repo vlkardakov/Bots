@@ -1,8 +1,10 @@
 import aiohttp
 import asyncio
 import os
-ngrok_domain=os.getenv("ngrok_domain")
-print(ngrok_domain)
+from dotenv import load_dotenv
+load_dotenv()
+#os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
+ngrok_domain = os.getenv("ngrok_domain")
 from memory import *
 import json
 import time
@@ -45,6 +47,7 @@ def gpt_thinks(a,t, do_ans, act):
         'act': act,
         'do_ans':do_ans
     }
+    response = requests.post(f'{ngrok_domain}/', data=data)
     response = requests.post(f'{ngrok_domain}/', data=data)
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")

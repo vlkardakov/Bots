@@ -210,7 +210,7 @@ def main():
                 send(Esc)
 if __name__ == "__main__":
     print("stratings")
-    send_chat("Вас приветствует BOT 01. Чтобы задать вопрос, добавьте в предожение слово бот 01 или боты. Poweredby OpenAI")
+    send_chat("Вас приветствует BOT 01. Чтобы задать вопрос, добавьте в предложение слова бот 01, или другой номер, в зависимости от имени). Bot started.")
     while True:
             main()
             print(e)
