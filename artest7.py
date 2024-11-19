@@ -11,6 +11,7 @@ from arestarmongus3 import send, _chat, what_step
 import os
 from dotenv import load_dotenv
 monum = int(os.getenv("monitor"))
+name = int(os.getenv("name"))
 
 Enter = "{Enter}"
 def gettxt(sct_img):
@@ -211,7 +212,7 @@ def main():
                 send(Esc)
 if __name__ == "__main__":
     print("stratings")
-    send_chat("Вас приветствует BOT 01. Чтобы задать вопрос, добавьте в предложение слова бот 01, или другой номер, в зависимости от имени). Bot started.")
+    send_chat(f"Вас приветствует BOT {name}. Чтобы задать вопрос, добавьте в предложение слова бот {name}. Bot {name} started.")
     while True:
             main()
             print(e)
