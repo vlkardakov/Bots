@@ -102,7 +102,6 @@ def gemini(message,chat_session):
     react = model_response.split("#")[1].strip()
     print('пытаемся отреактить')
     if react!="-":
-
         try:
             bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji(react)], is_big=True)
         except Exception as e:
