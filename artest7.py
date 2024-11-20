@@ -12,6 +12,7 @@ import os
 from dotenv import load_dotenv
 monum = int(os.getenv("monitor"))
 name = int(os.getenv("name"))
+names = os.getenv("names").split(",")
 
 Enter = "{Enter}"
 def gettxt(sct_img):
@@ -170,6 +171,8 @@ from memory import *
 from checkthechat import check_the_chat
 from test_api import pithon, gpt_thinks
 result_coding = None
+def check_if_name(names,result):
+
 def main():
     global result_coding
     while True:
@@ -212,7 +215,7 @@ def main():
                 send(Esc)
 if __name__ == "__main__":
     print("stratings")
-    send_chat(f"Вас приветствует BOT {name}. Чтобы задать вопрос, добавьте в предложение слова бот {name}. Bot {name} started.")
+    send_chat(f"Всем привет!")
     while True:
             main()
             print(e)
