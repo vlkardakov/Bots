@@ -10,12 +10,13 @@ def send_welcome(message):
     bot.register_next_step_handler(message, process_user_message)
 
 
+
 def process_user_message(message):
     user_name = message.from_user.first_name
     user_message = message.text
     bot.send_chat_action(message.chat.id, "typing")
     reply_message = gemini(user_name, user_message).replace("\n","")
-    bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji('👍')], is_big=False)
+    bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji('🍓')], is_big=True)
     if reply_message != "-":
         bot.reply_to(message, reply_message)
     else:
