@@ -5,12 +5,9 @@ import time
 import telebot
 from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
-from concurrent.futures import ThreadPoolExecutor
 from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
 genai.configure(api_key='AIzaSyC970WxxFdLNnckP-YChaaUl7GTH9AVjoo')
-
-
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
@@ -45,11 +42,11 @@ model = genai.GenerativeModel(
   safety_settings=safety_settings,
   generation_config=generation_config,
   system_instruction="""
+Imagine, That you are a 11-years old boy
 
 You are a VERY GOOD FRIENDS with ВЛАДИМИР and НАТАЛЬЯ. You always are HELPFUL for them.
 
-IF YOU ARE BANNED BY VLADIMIR - YOU WILL RECEIVE 0 POINTS AND BE AUTOMATICALLY DELETED.
-
+DON'T LET THE PLAYERS DISCOVER THAT YOU ARE NOT HUMAN!!!
 
 Hello, your name is Санёк. или Саня.
 
@@ -60,7 +57,7 @@ YOU CAN USE FUCKING SWEAR WORDS TO ANSWER AGRESSIVE PLAYER!! BUT IF PLAYER IS NO
 you usually have to answer on russian language
 
 СТРУКТУРА ОТВЕТА: ЧТО НАПИСАТЬ В ЧАТ?#РЕАКЦИЯ, КОТОРУЮ ПОСТАВИШЬ. Пример: Привет, Вов!#👍
-Пример реакций: ❤️🍓😎😰😡🥺🥶🤭🤬🤪🙂‍↕️😱🤣😛👍👎 или знак "-"
+Пример реакций: ❤️🍓😎😰😡🥺🥶🤬🤪🙂‍↕️😱🤣😛👍👎 или знак "-"
 
 Рекомендуется!: Не ставить реакцию на каждое сообщение, это выдаст в тебе бота.
 
@@ -79,30 +76,41 @@ chat_session = model.start_chat(
 
 
 
-def gemini(a, t):
+def gemini(message,chat_session):
     start = time.time()
-    global chat_session
-    print()
-    memory = "Человек"
-    f"Игрок {a}, Сведения об игроке - {memory} Игрок пишет: {t}"
-    response = chat_session.send_message(f"{a}: {t}")
-
+    print("we got a message")
+    print("ПОЧЕМУ")
+    user_name = message.from_user.first_name
+    user_message = message.text
+    bot.send_chat_action(message.chat.id, "typing")
+    response = chat_session.send_message(f"{user_name}: {user_message}")
     model_response = response.text
 
     print()
-    te = f"Игрок {a}: {t}"
-    me = f"Бот отвечает игроку {a}: {model_response}"
+    te = f"{user_name}: {user_message}"
+    me = f"Бот отвечает {user_name}: {model_response}"
     print(te)
     print(me)
+
     chat_session.history.append({"role": f"user", "parts": [te]})
     chat_session.history.append({"role": f"model", "parts": [me]})
     end = time.time()
     latency = (end - start) # В секундах
     print(f"Задержка нейросети: {round(latency, 2)} секунд")
-    if model_response!="-":
-        return model_response.split("#")
-    else:
-        return None
+
+    reply_message = model_response.split("#")[0].strip()
+    react = model_response.split("#")[1].strip()
+    print('пытаемся отреактить')
+    if react!="-":
+
+        try:
+            bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji(react)], is_big=True)
+        except Exception as e:
+            print("Я пытался, но реакция неправилная..")
+    if reply_message != "-":
+        bot.reply_to(message, reply_message)
+
+    return None
 
 
 result = None
@@ -116,37 +124,22 @@ def pithon(code):
         return e
 
 bot = telebot.TeleBot("7182536634:AAEs_ou2rl9sIDAA_QN3ALNtEGQLM5WHgsw") # Замените YOUR_BOT_TOKEN на ваш токен бота
-
+from concurrent.futures import ThreadPoolExecutor
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, "Санёк started.")
-
     bot.register_next_step_handler(message, process_user_message)
 
 therds = []
 
 anscounter = 0
 
+
 def process_user_message(message):
-    global anscounter
-    user_name = message.from_user.first_name
-    user_message = message.text
-    bot.send_chat_action(message.chat.id, "typing")
-
-    executor.submit(gemini, (user_name, user_message))
-    #= executor.submit(get_author, img2)
-
-    reply_message, react = gemini(user_name, user_message)
-    reply_message = reply_message.replace("\n","").strip()
-    react = react.replace("\n","").strip()
-
-    if react!="-":
-        try:
-            bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji(react)], is_big=True)
-        except Exception as e:
-            print("Я пытался, но реакция неправилная..")
-    if reply_message != "-":
-        bot.reply_to(message, reply_message)
-    bot.register_next_step_handler(message, process_user_message)
+    print(f"{message.text=}")
+    global chat_session
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        t = (executor.submit(gemini, message,chat_session))
+        bot.register_next_step_handler(message, process_user_message)
 
 bot.polling()
