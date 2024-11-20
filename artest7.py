@@ -172,7 +172,9 @@ from checkthechat import check_the_chat
 from test_api import pithon, gpt_thinks
 result_coding = None
 def check_if_name(names,result):
-
+    for name in names:
+        if name in result:
+            return True
 def main():
     global result_coding
     while True:
@@ -195,7 +197,7 @@ def main():
                 if text != (""or" ") and author != "":
                     #chat_history.append({"role": f"Player {author}", "content": f"Игрок {author}: {text}"})
                     print(text, author)
-                    if "Бот 1" in text or"Бот 01" in text or"бот 01" in text or"бот 1" in text:
+                    if check_if_name(names, text):
                         a = gpt_thinks(author, text, True, "Ask")
                         print(a)
                         send_chat(a)
