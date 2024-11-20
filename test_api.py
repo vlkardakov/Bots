@@ -1,15 +1,16 @@
 import aiohttp
 import asyncio
+import socketio
 import os
 from dotenv import load_dotenv
 import requests
 import time
 load_dotenv()
 
-
+ngrok_domain = os.getenv("ngrok_domain")
 
 #os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
-ngrok_domain = os.getenv("ngrok_domain")
+
 from memory import *
 import json
 import time
@@ -56,6 +57,7 @@ def gpt_thinks(a,t, do_ans, act):
     response = requests.post(f'{ngrok_domain}/', data=data)
     print(f"ПОЛНЫЙ ОТВЕТ СЕРВЕРА: {response.text}")
     a = pithon(f"result = {response.text}")
+    print(f"Размер ответа: {len(response.text)}")
     #print(type(a))
     end = time.time()
     latency = (end - start) * 1000  # В миллисекундах

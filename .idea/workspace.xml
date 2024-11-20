@@ -7,6 +7,11 @@
     <list default="true" id="b8b632ff-bdbc-4847-97cc-1081e6ec50bc" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/SmsToolsN/encode.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/amongUsParser/chat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_testin2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_testin3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Витя/start.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/SmsToolsN.py" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/SmsToolsN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/analysis.pyl" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/analysis.pyl" afterDir="false" />
@@ -19,7 +24,8 @@
       <change beforePath="$PROJECT_DIR$/SmsToolsN/read_sms_to_excel.pyl" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/read_sms_to_excel.pyl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmsToolsN/read_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/SmsToolsN/read_testing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/amongUsParser/read-live.py" beforeDir="false" afterPath="$PROJECT_DIR$/amongUsParser/read-live.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/artest7.py" beforeDir="false" afterPath="$PROJECT_DIR$/artest7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,15 +53,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.artest2.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/vlkardakov/Documents/1/Bots",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.artest2.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vlkardakov/Documents/1/Bots&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vlkardakov\Documents\1\Bots" />
