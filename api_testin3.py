@@ -99,6 +99,8 @@ def gemini(a, t):
     print()
     te = f"Игрок {a}: {t}"
     me = f"Бот отвечает игроку {a}: {model_response}"
+    print(te)
+    print(me)
     chat_session.history.append({"role": f"user", "parts": [te]})
     chat_session.history.append({"role": f"model", "parts": [me]})
     end = time.time()

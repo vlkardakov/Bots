@@ -11,11 +11,12 @@ def send_welcome(message):
 def process_user_message(message):
     user_name = message.from_user.first_name
     user_message = message.text
-
+    bot.send_chat_action(message.chat.id, 'typing')
     reply_message = gemini(user_name,user_message)
     if reply_message != "-":
         bot.reply_to(message, reply_message)
         bot.register_next_step_handler(message, process_user_message)
     else:
         time.sleep(0.4)
+        bot.register_next_step_handler(message, process_user_message)
 bot.polling()
