@@ -62,18 +62,19 @@ def gpt_thinks(a,t, do_ans, act):
     end = time.time()
     latency = (end - start) * 1000  # В миллисекундах
     print(f"Задержка нейросети: {latency}")
-    if type(a) == "NameError":
-        return "OK"
-    typ = a[0]
-    if typ == "python":
-        print("typ  = python detected")
-        result_coding = pithon(a[1])
-        return None
+    if do_ans:
+        typ = a[0]
+        if typ == "python":
+            print("typ  = python detected")
+            result_coding = pithon(a[1])
+            return None
+        else:
+            print("Это не код.")
+            ret = a[1]
+            #print(f"Возвращаем: {a}")
+            return ret
     else:
-        print("Это не код.")
-        ret = a[1]
-        #print(f"Возвращаем: {a}")
-        return ret
+        return response.text.strip()
 
 
 #<body class="h-full" id="ngrok">

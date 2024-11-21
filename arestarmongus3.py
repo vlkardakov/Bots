@@ -8,7 +8,7 @@ import subprocess
 import time
 from ultralytics import YOLO
 
-model = YOLO('2.pt')
+#model = YOLO('2.pt')
 #time.sleep(2)
 
 def send(text):

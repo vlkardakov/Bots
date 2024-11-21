@@ -3,7 +3,7 @@ import os
 import google.generativeai as genai
 import time
 
-genai.configure(api_key='AIzaSyC970WxxFdLNnckP-YChaaUl7GTH9AVjoo')
+genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw')
 
 
 

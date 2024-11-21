@@ -10,11 +10,11 @@ from concurrent.futures import ThreadPoolExecutor
 from arestarmongus3 import send, _chat, what_step
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 monum = int(os.getenv("monitor"))
 name = int(os.getenv("name"))
-names = os.getenv("names").split(",")
 
 Enter = "{Enter}"
 def gettxt(sct_img):
@@ -173,10 +173,6 @@ from memory import *
 from checkthechat import check_the_chat
 from test_api import pithon, gpt_thinks
 result_coding = None
-def check_if_name(names,result):
-    for name in names:
-        if name in result:
-            return True
 def main():
     global result_coding
     while True:
@@ -199,7 +195,7 @@ def main():
                 if text != (""or" ") and author != "":
                     #chat_history.append({"role": f"Player {author}", "content": f"Игрок {author}: {text}"})
                     print(text, author)
-                    if check_if_name(names, text):
+                    if "Бот 1" in text or"Бот 01" in text or"бот 01" in text or"бот 1" in text:
                         a = gpt_thinks(author, text, True, "Ask")
                         print(a)
                         send_chat(a)
@@ -219,7 +215,7 @@ def main():
                 send(Esc)
 if __name__ == "__main__":
     print("stratings")
-    send_chat(f"Всем привет!")
+    send_chat(f"Вас приветствует BOT {name}. Чтобы задать вопрос, добавьте в предложение слова бот {name}. Bot {name} started.")
     while True:
             main()
             print(e)

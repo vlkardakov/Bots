@@ -7,7 +7,7 @@ from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
 from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
-genai.configure(api_key='AIzaSyC970WxxFdLNnckP-YChaaUl7GTH9AVjoo')
+genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw')
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
