@@ -7,7 +7,7 @@ import time
 from time import sleep
 from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
-
+import concurrent
 
 from arestarmongus3 import send, _chat, what_step
 import os
@@ -171,6 +171,25 @@ def load_data(name):
     except Exception as e:
         return ""
 
+
+
+
+def do_most_of_all(a,t):
+    global result_coding
+    global free_time
+    if result_coding:
+        res = gpt_thinks("SYSTEM", result_coding, True, "Result")
+        now_time= time.time()
+        while free_time > now_time:
+            now_time = time.time()
+        free_time = time.time() + 3
+        send_chat(res)
+        free_time = time.time() + 3
+        result_coding = None
+    else:
+        gpt_thinks(a, t, True, "Ask")
+
+
 from memory import *
 from checkthechat import check_the_chat
 from test_api import pithon, gpt_thinks
@@ -181,10 +200,9 @@ def main():
         for i in range(100):
             if is_lobby():
                 chat_result = check_the_chat()
-                if result_coding!=None:
-                    gpt_thinks("SYSTEM", result_coding, True, "Result")
-                    result_coding = None
-                while chat_result == None:
+                if result_coding:
+                    do_most_of_all("0", "")
+                while not chat_result:
                     chat_result = check_the_chat()
                     time.sleep(0.5)
                     #print("...")
@@ -194,18 +212,12 @@ def main():
                 #and text.startswith("бот")
                 last_text, last_author = text, author
 
+
+
                 if text != (""or" ") and author != "":
                     #chat_history.append({"role": f"Player {author}", "content": f"Игрок {author}: {text}"})
                     print(text, author)
-                    if "Бот 1" in text or"Бот 01" in text or"бот 01" in text or"бот 1" in text:
-                        a = gpt_thinks(author, text, True, "Ask")
-                        print(a)
-                        send_chat(a)
-
-                        #print(f"chat _ shistory = {chat_history}")
-                    else:
-                        print(f"Пытаемся отправить текст {text} боту")
-                        print(gpt_thinks(author, text, False, "Ask"))
+                    a = concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all(author,text))
 
                 while text == last_text and author == last_author:
                     #print("text and author last")
@@ -219,6 +231,6 @@ if __name__ == "__main__":
     print("stratings")
     send_chat(f"Вас приветствует BOT {name}. Чтобы задать вопрос, добавьте в предложение слова бот {name}. Bot {name} started.")
     while True:
-            main()
-            print(e)
-            send_chat(f"ошибка: {e}")
+        main()
+        print(e)
+        send_chat(f"ошибка: {e}")

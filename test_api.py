@@ -4,12 +4,12 @@ import socketio
 import os
 from dotenv import load_dotenv
 import requests
-import time
 load_dotenv()
 
 ngrok_domain = os.getenv("ngrok_domain")
 
 #os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
+
 
 from memory import *
 import json
@@ -68,24 +68,64 @@ def gpt_thinks(a,t, do_ans, act):
             print("typ  = python detected")
             result_coding = pithon(a[1])
             return None
-        else:
-            print("Это не код.")
+        elif typ == "OK":
+            print("Это игнор(..")
+            return "OK"
+        elif typ == "send":
+            print("Это сообщение!")
             ret = a[1]
             #print(f"Возвращаем: {a}")
+            #print(f"{ret=}")
             return ret
     else:
         return response.text.strip()
 
+def send_chat(text):
+    print(f"ВЫВОДИМ: {text}")
 
-#<body class="h-full" id="ngrok">
+free_time= time.time()
+
+def do_most_of_all(a,t):
+    #print("запуск мультипоточного менеджмента)")
+    global result_coding
+    global free_time
+    try:
+        print("Пытаемся!")
+        if result_coding:
+            res = gpt_thinks("SYSTEM", result_coding, True, "Result")
+            now_time= time.time()
+
+            while free_time > now_time:
+                print("Обновляем время")
+                now_time = time.time()
+            free_time = time.time() + 3
+            send_chat(res)
+            free_time = time.time() + 3
+            result_coding = None
+        else:
+            res = gpt_thinks(a, t, True, "Ask")
+            now_time = time.time()
+            while free_time > now_time:
+                print("Обновляем время")
+                now_time = time.time()
+            free_time = time.time() + 3
+            send_chat(res)
+            free_time = time.time() + 3
+
+    except Exception as e:
+        print(e)
+import concurrent
+
 if __name__ == "__main__":
     while True:
+
         result_coding = None
         t = input()
-        a = gpt_thinks("system", t, True, "Ask")
+        concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all("Кот",t))
+
         if result_coding:
-            a = gpt_thinks("SYSTEM", result_coding, True, "Result")
-        print(f"ОТВЕТ БОТА: {a}")
+            concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all("SYSTEM",result_coding))
+
 
 
 
