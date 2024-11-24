@@ -96,6 +96,7 @@ def do_most_of_all(a,t):
             now_time= time.time()
 
             while free_time > now_time:
+                time.sleep(0.1)
                 print("Обновляем время")
                 now_time = time.time()
             free_time = time.time() + 3
@@ -106,6 +107,7 @@ def do_most_of_all(a,t):
             res = gpt_thinks(a, t, True, "Ask")
             now_time = time.time()
             while free_time > now_time:
+                time.sleep(0.1)
                 print("Обновляем время")
                 now_time = time.time()
             free_time = time.time() + 3
@@ -118,13 +120,11 @@ import concurrent
 
 if __name__ == "__main__":
     while True:
-
         result_coding = None
         t = input()
-        concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all("Кот",t))
-
+        concurrent.futures.ThreadPoolExecutor(max_workers=500).submit(do_most_of_all("Кот",t))
         if result_coding:
-            concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all("SYSTEM",result_coding))
+            concurrent.futures.ThreadPoolExecutor(max_workers=500).submit(do_most_of_all("SYSTEM",result_coding))
 
 
 

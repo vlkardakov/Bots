@@ -172,8 +172,6 @@ def load_data(name):
         return ""
 
 
-
-
 def do_most_of_all(a,t):
     global result_coding
     global free_time
@@ -181,13 +179,23 @@ def do_most_of_all(a,t):
         res = gpt_thinks("SYSTEM", result_coding, True, "Result")
         now_time= time.time()
         while free_time > now_time:
+            print("Обновляем время!")
             now_time = time.time()
         free_time = time.time() + 3
         send_chat(res)
         free_time = time.time() + 3
         result_coding = None
     else:
-        gpt_thinks(a, t, True, "Ask")
+        res = gpt_thinks(a, t, True, "Ask")
+        if res != "OK":
+            now_time= time.time()
+            while free_time > now_time:
+                print("Обновляем время!")
+                now_time = time.time()
+            free_time = time.time() + 3
+            send_chat(res)
+            free_time = time.time() + 2
+            result_coding = None
 
 
 from memory import *
@@ -201,7 +209,8 @@ def main():
             if is_lobby():
                 chat_result = check_the_chat()
                 if result_coding:
-                    do_most_of_all("0", "")
+                    concurrent.futures.ThreadPoolExecutor(max_workers=5).submit(do_most_of_all("SYSTEM", result_coding))
+
                 while not chat_result:
                     chat_result = check_the_chat()
                     time.sleep(0.5)
@@ -212,12 +221,10 @@ def main():
                 #and text.startswith("бот")
                 last_text, last_author = text, author
 
-
-
                 if text != (""or" ") and author != "":
                     #chat_history.append({"role": f"Player {author}", "content": f"Игрок {author}: {text}"})
                     print(text, author)
-                    a = concurrent.futures.ThreadPoolExecutor(max_workers=2).submit(do_most_of_all(author,text))
+                    concurrent.futures.ThreadPoolExecutor(max_workers=500).submit(do_most_of_all(author, text))
 
                 while text == last_text and author == last_author:
                     #print("text and author last")
