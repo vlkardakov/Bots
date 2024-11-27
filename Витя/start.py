@@ -1,16 +1,19 @@
-"""
-Типы данных:
 
-int(строка) - возвращает число изх строки
+chs = []
 
-float(строка или input()) - возвращает нецелое число
+simples = []
 
-str(любой тип) - вернет строку с этой переменной
+def is_simple(im):
+    for ch in chs:
+        if (im/ch)%1!==0:
+            return False
 
-"""
 
 
-string = input()
-print(f"тип переменной string = {type(string)}, сама переменная {string}")
+for i in range(-10, 10):
+    chs.append(i)
 
-print(int(input())*2)
+
+
+
+    print(f"Для числа {i}: {i**2} ")
