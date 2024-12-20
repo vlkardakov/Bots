@@ -2,8 +2,11 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/G-Scraper" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/LeakSearch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MalumMenu" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SmsToolsN" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SmsToolsN/python-gsmmodem" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/amongUsParser" vcs="Git" />
   </component>
 </project>
