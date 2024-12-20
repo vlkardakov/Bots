@@ -4,9 +4,14 @@ import mss
 import argparse
 import time
 import pyautogui
+import os
 import subprocess
 import time
 from ultralytics import YOLO
+
+from dotenv import load_dotenv
+load_dotenv()
+monum = int(os.getenv("monitor"))
 
 #model = YOLO('2.pt')
 #time.sleep(2)
@@ -14,8 +19,9 @@ from ultralytics import YOLO
 def send(text):
     subprocess.run(["press.exe", text])
 def find(template, threshold, y, x, target_count, do_click):
+    global monum
     with mss.mss() as sct:
-        screenshot = np.array(sct.grab(sct.monitors[0]))
+        screenshot = np.array(sct.grab(sct.monitors[monum]))
         img_rgb = cv.cvtColor(screenshot, cv.COLOR_BGR2RGB)
         img_gray = cv.cvtColor(img_rgb, cv.COLOR_RGB2GRAY)
 
@@ -36,9 +42,10 @@ def find(template, threshold, y, x, target_count, do_click):
             cv.putText(img_rgb, str(count), (pt[0] - x, pt[1] - y - 5), cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
             if count == target_count:
-                if do_click == True:
+                if do_click:
                     # Выполнить клик по центру найденного шаблона
                     pyautogui.click(center_x + x, center_y + y)
+                    return True
                 return True
 
             count += 1

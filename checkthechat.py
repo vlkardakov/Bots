@@ -6,6 +6,7 @@ import numpy as np
 import random
 import os
 from dotenv import load_dotenv
+load_dotenv()
 monum = int(os.getenv("monitor"))
 def find_news(template, threshold, y, x, target_count, do_click):
     with mss.mss() as sct:
@@ -17,6 +18,7 @@ def find_news(template, threshold, y, x, target_count, do_click):
             "height": 60
         }
         screenshot = np.array(sct.grab(monitor))
+        #cv.imshow("cat", screenshot)
         img_rgb = cv.cvtColor(screenshot, cv.COLOR_BGR2RGB)
         img_gray = cv.cvtColor(img_rgb, cv.COLOR_RGB2GRAY)
 

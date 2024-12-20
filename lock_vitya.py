@@ -13,7 +13,7 @@ while True:
         time.sleep(1)
         if fafind("phone_lock2", 0.8, True):
             time.sleep(0.5)
-            send("ВИТЯ ЛОХ!!!")
+            send("ВИТЯ ЛОХ")
             print(2)
             time.sleep(1.5)
             if fafind("phone_lock3", 0.8, True):

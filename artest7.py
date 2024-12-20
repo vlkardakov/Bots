@@ -7,10 +7,14 @@ import time
 from time import sleep
 from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
-from arestarmongus3 import  , _chat, what_step
+from arestarmongus3 import  _chat, what_step
 import os
 from dotenv import load_dotenv
 load_dotenv()
+import subprocess
+
+def send(text):
+    subprocess.run(["press.exe", text])
 
 monum = int(os.getenv("monitor"))
 name = int(os.getenv("name"))
@@ -111,17 +115,18 @@ Esc = "{Esc}"
 def send_chat(*args):
     message = str(*args)
     message = convert_to_single_line(message)
+    _chat()
+    time.sleep(0.3)
+    _chat()
     if len(message) > 95:
         for i in range(0, len(message), 95):
             chunk = message[i:i+95]
-            _chat()
             print(f"Что печатаем: \n{replace_string(chunk)+"  "+Enter}")
             send(replace_string(chunk)+"  "+Enter)
             if i*90<len(message):
                 time.sleep(3.6)
         send(Esc)
     else:
-        _chat()
         print(f"Что печатаем: \n{replace_string(message) + "  " + Enter}")
         send(replace_string(message)+" "+Enter)
         time.sleep(1)
@@ -171,7 +176,7 @@ def load_data(name):
 
 from memory import *
 from checkthechat import check_the_chat
-from test_api import pithon, gpt_thinks
+from test_api import *
 result_coding = None
 def check_if_name(names,result):
     for name in names:
@@ -179,35 +184,27 @@ def check_if_name(names,result):
             return True
 def main():
     global result_coding
+    global chat_session
     while True:
         for i in range(100):
             if is_lobby():
                 chat_result = check_the_chat()
-                if result_coding!=None:
-                    gpt_thinks("SYSTEM", result_coding, True, "Result")
-                    result_coding = None
                 while chat_result == None:
                     chat_result = check_the_chat()
                     time.sleep(0.5)
                     #print("...")
                 text, author = fast_data()
-                #print(f"Текст, автор - {text} {author}")
-                #print("проверим далее на нулевость")
-                #and text.startswith("бот")
                 last_text, last_author = text, author
 
                 if text != (""or" ") and author != "":
-                    #chat_history.append({"role": f"Player {author}", "content": f"Игрок {author}: {text}"})
-                    print(text, author)
-                    if check_if_name(names, text):
-                        a = gpt_thinks(author, text, True, "Ask")
-                        print(a)
-                        send_chat(a)
 
-                        #print(f"chat _ shistory = {chat_history}")
-                    else:
-                        print(f"Пытаемся отправить текст {text} боту")
-                        print(gpt_thinks(author, text, False, "Ask"))
+                    te = f"Игрок {author}: {text}"
+                    chat_session.history.append({"role": f"user", "parts": [te]})
+                    print(text, author)
+                    ans = gemini(author, text)
+                    ans = gemini(author, text)
+                    print(ans)
+                    send_chat(ans)
 
                 while text == last_text and author == last_author:
                     #print("text and author last")
@@ -218,9 +215,6 @@ def main():
                 time.sleep(0.5)
                 send(Esc)
 if __name__ == "__main__":
-    print("stratings")
     send_chat(f"Всем привет!")
     while True:
             main()
-            print(e)
-            send_chat(f"ошибка: {e}")
