@@ -106,14 +106,6 @@ def what_do(cls):
         _return()
 import keyboard
 
-def send_chat(*args):
-    if what_step() != "chat":
-        _chat()
-    send(*args)
-    time.sleep(1)
-    send("{Esc}")
-    time.sleep(2)
-
 def parse(pars):
     targets = {}
     pars = pars.split()
