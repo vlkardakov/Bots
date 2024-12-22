@@ -6,14 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b8b632ff-bdbc-4847-97cc-1081e6ec50bc" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/amongUsParser/chat.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deeppai.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/work_with_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/amongUsParser/read-live.py" beforeDir="false" afterPath="$PROJECT_DIR$/amongUsParser/read-live.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/artest7.py" beforeDir="false" afterPath="$PROJECT_DIR$/artest7.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot_with_overlays.png" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot_with_overlays.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_api.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
