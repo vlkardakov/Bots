@@ -210,6 +210,8 @@ def main():
                     if "start" in model_response:
                         _start()
                     elif "off" in model_response:
+                        send_chat(model_response)
+                        time.sleep(0.7)
                         chat_session.history.append({"role": f"model", "parts": "Выключение..."})
                         send_chat("SAVING MEMORY AND TURNING OFF...")
                         with open('chat_history.pkl', 'wb') as f:
