@@ -186,7 +186,7 @@ import pickle
 
 with open('chat_history.pkl', 'rb') as cs:
     #chat_session.history = pickle.load(cs)
-    chat_session.history = []
+    chat_session.history = pickle.load(cs)
 
 def check_if_name(names,result):
     for name in names:
