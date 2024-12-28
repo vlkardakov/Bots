@@ -84,6 +84,65 @@ def _chat():
     fafind("chat", 0.8, True)
 def ischat_():
     fafind("chat_is_open", 0.8, False)
+def _settings():
+    return fafind("settings", 0.8, True)
+
+import pyautogui
+import time
+def change_params(param):
+
+    dict_of_coords = {
+        "impostors_count": 320,
+        "kill_cooldown": 410,
+        "impostor_vision": 490,
+        "kill_rich": 570,
+        "speed": 770,
+        "crew_vision": 840,
+    }
+
+    if not param.startswith("map:"):
+        first, second = param.split(":")
+        second = int(second)
+    else:
+        first = "map"
+    if _settings():
+        time.sleep(0.1)
+        if fafind("settings2", 0.8, True):
+            if not param.startswith("map:"):
+                time.sleep(0.1)
+                # Получаем разрешение экрана
+                screen_width, screen_height = pyautogui.size()
+
+                # Вычисляем координаты центра экрана
+                center_x = screen_width // 2
+                center_y = screen_height // 2
+
+                # Перемещаем курсор в центр экрана
+                pyautogui.moveTo(center_x, center_y, duration=0.25)
+
+                # Нажимаем левую кнопку мыши
+                pyautogui.mouseDown()
+
+                # Перемещаем курсор вверх на 100 пикселей
+                pyautogui.moveTo(center_x, center_y - 270, duration=0.25)
+
+                # Отпускаем левую кнопку мыши
+                pyautogui.mouseUp()
+
+                time.sleep(0.1)
+
+                height = dict_of_coords[first]
+
+                if second > 0:
+                    pyautogui.click(1550, height)
+                else:
+                    pyautogui.click(1280, height)
+
+                time.sleep(0.1)
+                send("{Esq}")
+
+
+
 
 def what_do(cls):
     if cls == "lobby" and fafind("start_button", 0.8, False) == True:

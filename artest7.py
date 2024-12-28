@@ -9,7 +9,7 @@ import time
 from time import sleep
 from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
-from arestarmongus3 import  _chat, what_step
+from arestarmongus3 import _chat, what_step, change_params
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -46,6 +46,21 @@ def img_for_author():
         # Grab the data
         sct_img = sct.grab(monitor)
         return sct_img
+
+def img_for_color():
+    with mss.mss() as sct:
+        # Координаты и размеры области захвата
+        mon = sct.monitors[monum]
+        monitor = {
+            "top": mon["top"] + 87,  # 100px from the top
+            "left": mon["left"] + 275,  # 100px from the left
+            "width": 213,
+            "height": 40
+        }
+        # Grab the data
+        sct_img = sct.grab(monitor)
+        return sct_img
+
 def img_for_text():
     with mss.mss() as sct:
         # Координаты и размеры области захвата
@@ -70,7 +85,11 @@ def get_author(sct_img):
     author = clean_string(author, """<>[]/|:,.;`'""")
 
     #print(f"""Автор: {author}""")
-    #if "Cherry" in author: author+=f" (Префикс мяу)"
+    if "Kor" in author: author = "Кот"
+    elif "Koy" in author: author = "Кот"
+    elif "Enka" in author: author = "Лаша"
+    elif "Kor" in author: author = "Кот"
+
     return author
 def clean_string(s, bads):
     bad_chars = np.array(list(bads))
@@ -102,14 +121,16 @@ def islobby(template, threshold):
 def is_lobby():
     return islobby("imgs/islobby.png", 0.8)
 def fast_data():
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        #print("Задаем потоки..")
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        print("Задаем потоки..")
         img1 = img_for_text()
         img2 = img_for_author()
+        img3 = img_for_color()
         futuretext = executor.submit(gettxt, img1)
         futureauthor = executor.submit(get_author, img2)
-        text, author = futuretext.result(), futureauthor.result()
-        return text, author
+        futurecolor = executor.submit(gettxt, img3)
+        text, author, color = futuretext.result(), futureauthor.result(), futurecolor.result()
+        return text, author, color
 free_time = float(time.time())
 def convert_to_single_line(text):
     return text.replace('\n', '  ')
@@ -141,11 +162,13 @@ journal = []
 
 def replace_string(input_str):
     # Словарь для замены
+    # '': '{Lshift down}{Lshift up}',
     replacements = {
         '!': '{Lshift down}1{Lshift up}',
         '?': '{Lshift down}7{Lshift up}',
         ':': '{Lshift down}6{Lshift up}',
         '*': '{Lshift down}8{Lshift up}',
+        '+': '{Lshift down}={Lshift up}',
         '\n': ' '
     }
 
@@ -179,6 +202,7 @@ def load_data(name):
 from memory import *
 from checkthechat import check_the_chat
 from test_api import *
+from describe_screen import describe
 from arestarmongus3 import _start
 import pickle
 
@@ -191,60 +215,84 @@ with open('chat_history.pkl', 'rb') as cs:
     iiii=0
     for el in loaded:
         if iiii %2 == 0:
-            chat_session.history.append(el)
+            pass
+            #chat_session.history.append(el)
         iiii += 1
 
 def check_if_name(names,result):
     for name in names:
         if name in result:
             return True
+
+
+
+
 def main():
     global result_coding
     global chat_session
     while True:
             if is_lobby():
                 #chat_result = check_the_chat()
-                text, author = fast_data()
+                text, author, color = fast_data()
                 last_text, last_author = text, author
                 print(f"{text}  {author}")
-                if text != ("" or " ") and author != "":
+                if text not in ["", " "] and (author or color):
+                    author = f"{author} ({color})"
                     chat_str=str(chat_session.history).replace("\n", "")
                     print(f"{chat_str}")
                     print(text, author)
-                    model_response = convert_to_single_line(clean_string(gemini(author, text), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
-                    if "start" in model_response:
+                    me1 = convert_to_single_line(clean_string(gemini(author, text), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
+                    if "start" in me1:
                         _start()
-                    elif "off" in model_response:
-                        send_chat(model_response)
+                    if "off" in me1:
+                        send_chat(me1)
                         time.sleep(0.7)
                         chat_session.history.append({"role": f"model", "parts": "Выключение..."})
                         send_chat("SAVING MEMORY AND TURNING OFF...")
                         with open('chat_history.pkl', 'wb') as f:
                             pickle.dump(chat_session.history, f)
                         exit()
-                    elif "save" in model_response:
+                    if "save" in me1:
                         with open('chat_history.pkl', 'wb') as f:
                             pickle.dump(chat_session.history, f)
-                    elif "clear" in model_response:
+                    if "clear" in me1:
                         with open('chat_history.pkl', 'rb') as cs:
                             chat_session.history = pickle.load(cs)
-
-
-                    print(model_response)
-                    for el in model_response.split("%"):
+                    if  'impostors_count:+' in me1:
+                        change_params("impostors_count:1")
+                    if  'impostors_count:-' in me1:
+                        change_params("impostors_count:-1")
+                    if  'speed:+' in me1:
+                        change_params("speed:1")
+                    if  'speed:-' in me1:
+                        change_params("speed:-1")
+                    if  'kill_rich:+' in me1:
+                        change_params("kill_rich:1")
+                    if  'kill_rich:-' in me1:
+                        change_params("kill_rich:-1")
+                    if  'impostor_vision:+' in me1:
+                        change_params("impostor_vision:1")
+                    if  'impostor_vision:-' in me1:
+                        change_params("impostor_vision:-1")
+                    if  'crew_vision:+' in me1:
+                        change_params("impostor_vision:1")
+                    if  'crew_vision:+' in me1:
+                        change_params("impostor_vision:1")
+                    print(me1)
+                    for el in me1.split("%"):
                         send_chat(el)
                         time.sleep(0.9)
-
-
 
                 while text == last_text and author == last_author:
                     #print("text and author last")
                     time.sleep(0.5)
-                    text, author = fast_data()
+                    text, author, color = fast_data()
             else:
                 #print("not chat")
                 time.sleep(0.5)
 if __name__ == "__main__":
+    #change_params("speed:+1")
+    #exit()
     send_chat("Бот Саня Started")
     try:
         while True:

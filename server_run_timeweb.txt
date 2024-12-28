@@ -1,0 +1,1 @@
+caddy run|docker run -p 22023:22023/tcp -p 22023:22023/udp -e IMPOSTOR_Server__PublicIp=87.120.186.63 aeonlucid/impostor:nightly

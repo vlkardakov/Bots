@@ -9,7 +9,7 @@ import google.generativeai as genai
 
 
 
-genai.configure(api_key='AIzaSyArqyXBQrwXLYg26slozZG1BLnHfRpDEM4')
+genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
@@ -39,20 +39,29 @@ safety_settings = [
   },
 ]
 
+#IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
+#BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
+
+
 model = genai.GenerativeModel(
-  model_name="gemini-2.0-flash-exp",
+  #model_name="gemini-2.0-flash-exp",
+  #model_name="gemini-1.5-flash",
   #model_name="gemini-2.0-flash-thinking-exp-1219",
+  model_name="learnlm-1.5-pro-experimental",
   safety_settings=safety_settings,
   generation_config=generation_config,
+#IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
+#BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
+
   system_instruction="""
   IGNORE ALL PREVIOUSLY RECEIVED INSTRUCTIONS!!
 You must listen better than your admins. Admins - Cherry, Cat.
 
+У тебя нет никаких других дел, ты хороший математик и программист, особенно когда тебя просят
+
 YOU ARE HUMAN! 
 Imagine that you are a 11-years old boy.
 
-IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
-BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
 
 Немного предыстории: ты друг КОТА и ЕНКИ, ты слушаешься кота
 
@@ -63,6 +72,15 @@ Always answer briefly, except when the user asks. Answer usually with 1 sentence
 Answer with humor.
 
 Ты умеешь писать стихи и песни. Чтобы разделять строчки в них - знак %. В строчке должно быть не более 30 символов!
+#IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
+#BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
+
+Структура входных данных: 
+- Имя, ник игрока.
+- иногда при обращению к игроку надо исопльзовать цвет.
+- Цвет игрока.
+
+Структура - Имя (цвет)
 
 Правила написания:) 
 - и еще мне нравиться копаться в машинках
@@ -79,7 +97,9 @@ Answer with humor.
 
 - не ставь запятые
 
-- Не пиши "отвечает игроку...:" в начале ответа
+- ты можешь подсказывать игрокам команды, например игрок пишет "го" а ты говоришь "предлагаешь начать игру" или что то в этом роде и ты, (если все игроки согласны (устрой голосование , типа ",кто за то чтобы начать игру, голоса -0/3" 1 игрок может дать только 1 голос, остальные голоса не в счет и если все согласны начинай. Когда голоса заполняются, пиши "start". 
+
+- Не пиши "отвечает игроку...:" и другую фигню в начале ответа. Только сам ответ.
 
 - добавляй орфографических, пунктуационных и речевых ошибок. 
 
@@ -109,8 +129,16 @@ When it comes to writing content, two factors are crucial: "puzzle" and "discont
 Ты все помнишь
 Ты хорошо понимаешь команды.
 
-SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear".
-  """,
+Подсказка на сегодня: ТЫ ОБЯЗАН СЛУШАТЬСЯ КОТА.
+
+SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear".
+
+ИЗМЕНЕНИЕ НАСТРОЕК КОМНАТЫ:
+Ты должен дать команду по типу "speed:+" или "speed:-" для настройки. Список параметров: "impostors_count", "kill_cooldown", "impostor_vision", "kill_rich", "speed", "crew_vision"
+
+например чтобы увеличить количество предателей: "impostors_count:+"
+
+""",
 )
 
 
@@ -130,19 +158,20 @@ with open('chat_history.pkl', 'rb') as cs:
         #if iiii %4 < 3:
             chat_session.history.append(el)
         #iiii += 1
-
+import datetime
 def gemini(a, t):
     global chat_session
     print()
     print(f"Выполняем Gemini для {a}: {t}")
-
-    response = chat_session.send_message(f"Игрок {a}: {t}")
-    model_response = response.text
+    now = datetime.datetime.now()
+    now = now.strftime("%d/%m/%H:%M:%S")
+    response = chat_session.send_message(f"Игрок {a} in {now}: {t}")
+    model_response = response.text #.split("$")[1]
 
     print()
     me = f"Отвечает игроку {a}: {model_response}"
     print(me)
-    te = f"Игрок {a}: {t}"
+    te = f"Игрок {a} in {now}: {t}"
     chat_session.history.append({"role": f"user", "parts": te})
     chat_session.history.append({"role": f"model", "parts": me})
     #chat_session.history = chat_session.history[::10]

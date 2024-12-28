@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import mss
 from PIL import Image
-from artest6 import gettxt, get_author, replace_string
+from artest7 import gettxt, get_author, replace_string
 from arestarmongus3 import send
 from checkthechat import check_the_chat
 from arestarmongus3 import _chat, ischat_
@@ -69,15 +69,15 @@ def provod(n):
         sct_img = sct.grab(monitor)
         return sct_img  # Возвращаем захваченное изображение
 
-def img_for_author():
+def img_for_color():
     """Захватывает область экрана для автора и возвращает изображение."""
     with mss.mss() as sct:
-        mon = sct.monitors[1]
+        mon = sct.monitors[0]
         monitor = {
-            "top": mon["top"] + 52,  # 100px from the top
+            "top": mon["top"] + 87,  # 100px from the top
             "left": mon["left"] + 275,  # 100px from the left
-            "width": 218,
-            "height": 45
+            "width": 213,
+            "height": 40
         }
         sct_img = sct.grab(monitor)
         return sct_img  # Возвращаем захваченное изображение
