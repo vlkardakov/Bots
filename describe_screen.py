@@ -41,13 +41,3 @@ def describe(zapros, chat_session2):
         return chat_session2
     except Exception as e:
         print(f"Ошибка при генерации контента из изображения: {e}")
-
-
-response = model.generate_content("The opposite of hot is")
-print(response.text)
-
-while True:
-    zapros = input("Введите запрос (или 'выход'): ")
-    if zapros.lower() == 'выход':
-        break
-    describe(zapros)

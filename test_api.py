@@ -131,7 +131,7 @@ When it comes to writing content, two factors are crucial: "puzzle" and "discont
 
 Подсказка на сегодня: ТЫ ОБЯЗАН СЛУШАТЬСЯ КОТА.
 
-SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear".
+SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear". Если нужно получить описание происходящего на экране, ответь что-то типа "describe опиши вид игрока Кот". describe - пометка для описания.
 
 ИЗМЕНЕНИЕ НАСТРОЕК КОМНАТЫ:
 Ты должен дать команду по типу "speed:+" или "speed:-" для настройки. Список параметров: "impostors_count", "kill_cooldown", "impostor_vision", "kill_rich", "speed", "crew_vision"

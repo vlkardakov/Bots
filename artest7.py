@@ -246,7 +246,7 @@ def main():
                         _start()
                     if "off" in me1:
                         send_chat(me1)
-                        time.sleep(0.7)
+                        time.sleep(1)
                         chat_session.history.append({"role": f"model", "parts": "Выключение..."})
                         send_chat("SAVING MEMORY AND TURNING OFF...")
                         with open('chat_history.pkl', 'wb') as f:
@@ -258,6 +258,11 @@ def main():
                     if "clear" in me1:
                         with open('chat_history.pkl', 'rb') as cs:
                             chat_session.history = pickle.load(cs)
+                    if "describe" in me1:
+                        chat_session = describe(me1, chat_session)
+                        send_chat(convert_to_single_line(clean_string(gemini("SYSTEM", "Ты можешь написать в чат что угодно, что узнал из описания ищображения, например"), ["[","]","<",">",r"\n","\n"]).replace("\n","")))
+                        time.sleep(0.9)
+                        
                     if  'impostors_count:+' in me1:
                         change_params("impostors_count:1")
                     if  'impostors_count:-' in me1:
@@ -281,7 +286,7 @@ def main():
                     print(me1)
                     for el in me1.split("%"):
                         send_chat(el)
-                        time.sleep(0.9)
+                        time.sleep(1.5)
 
                 while text == last_text and author == last_author:
                     #print("text and author last")
