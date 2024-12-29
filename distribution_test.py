@@ -11,7 +11,7 @@ api_keys = [
     "AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ", # работает
     #"AIzaSyArqyXBQrwXLYg26slozZG1BLnHfRpDEM4",
     #"AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw",
-    "AIzaSyCF4gSrVqI7wqP8jfOdD7V-fDo_TAImflY", # 9 новый
+    "AIzaSyCF4gSrVqI7wqP8jfOdD7V-fDo_TAImflY", # 9
     "AIzaSyDENOL9VDuCYYKsx_GkaYa_7qjrSPgiONM", # 10
 ]
 

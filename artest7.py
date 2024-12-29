@@ -224,31 +224,54 @@ def check_if_name(names,result):
         if name in result:
             return True
 
-def distribute_images():
-    inted = random.randint(1,4)
+def capture_screenshot(monitor_data):
+    with mss.mss() as sct:
+        sct_img = sct.grab(monitor_data)
+        img_np = np.frombuffer(sct_img.bgra, dtype=np.uint8).reshape(sct_img.height, sct_img.width, 4)
+        img_np = img_np[..., :3][:, :, ::-1]  # BGRA -> RGB
+        img = Image.fromarray(img_np)
+        img = img.resize((320, 180)) # Resize for comparison
+        return img, np.array(img)
 
 
 def main():
     global result_coding
     global chat_session
+
+    with mss.mss() as sct:
+        mon = sct.monitors[0]
+        chat_config = {
+            "top": mon["top"] + 87,  # 100px from the top
+            "left": mon["left"] + 374,  # 100px from the left
+            "width": mon["width"] - 880,  # 2800,  # Исправлено: width вместо what
+            "height": 648
+        }
+
+    old_img = capture_screenshot(chat_config)
+    should_do = True
+
     description = ""
     while True:
             if not is_lobby():
-                #chat_result = check_the_chat()
-                #text, author, color = fast_data()
-                #last_text, last_author = text, author
-                #print(f"{text}  {author}")
-                print("Описание")
-                new_description = describe(f"Ты находишься в чате иры Among Us. Сообщения появляются снизу и движутся вверх, когда появляются новые. Твоя задача, это получить из изображения НОВЫЕ сообщения, которых нет в СТАРЫХ сообщениях: {description}- это старые сообщения. Найди новые.")
-                print(new_description)
+                new_img = capture_screenshot(chat_config)
 
-                if not new_description.strip() == "-":
-                    #author = f"{author} ({color})"
-                    description = new_description
-                    print("""chat_str=str(chat_session.history).replace("\n", "")""")
-                    #chat_str=str(chat_session.history).replace("\n", "")
-                    #print(f"{chat_str}")
-                    #print(text, author)
+                # Сравниваем изображения
+                difference = cv.subtract(old_img[1], new_img[1])
+                result = np.any(difference)
+
+                if result or should_do:
+                    print("Описание")
+                    description = describe(f"Ты находишься в чате иры Among Us. Сообщения появляются снизу и движутся вверх, когда появляются новые. Твоя задача, это получить из изображения НОВЫЕ сообщения, которых нет в СТАРЫХ сообщениях: {description}- это старые сообщения. Найди новые.")
+                    print(description)
+
+                    # Показать разницу (опционально)
+                    cv.imshow("Difference", difference)
+                    cv.waitKey(0)
+                    cv.destroyAllWindows()
+
+                    print("Pictures are different.")
+
+
                     me1 = convert_to_single_line(clean_string(gemini(description), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
                     if not me1.replace("\n", "").strip() == "-":
                         if "start" in me1:
@@ -318,6 +341,7 @@ def main():
                             if el != me1.split("%")[-1]:
                                 time.sleep(2.4)
                 else:
+                    print("Pictures are not different")
                     time.sleep(4)
                 #while text == last_text and author == last_author:
                 #    #print("text and author last")
