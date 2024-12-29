@@ -9,8 +9,13 @@ import google.generativeai as genai
 
 
 
-#genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')
-genai.configure(api_key='AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ')
+#enai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')  # ?
+#genai.configure(api_key='AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ') # ?
+genai.configure(api_key='AIzaSyD5JFHAtqA-vLFJm3NN8uA4vLkqV7kAjOY') # 1
+#genai.configure(api_key='AIzaSyArqyXBQrwXLYg26slozZG1BLnHfRpDEM4') # 2
+#genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw') # 6
+#genai.configure(api_key='') #
+
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
@@ -46,9 +51,9 @@ safety_settings = [
 
 model = genai.GenerativeModel(
   #model_name="gemini-2.0-flash-exp",
-  #model_name="gemini-1.5-flash",
+  model_name="gemini-1.5-flash",
   #model_name="gemini-2.0-flash-thinking-exp-1219",
-  model_name="learnlm-1.5-pro-experimental",
+  #model_name="learnlm-1.5-pro-experimental",
   safety_settings=safety_settings,
   generation_config=generation_config,
 #IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
@@ -210,7 +215,7 @@ def do_most_of_all(a,t):
     global result_coding
     global free_time
     try:
-            res = gemini(a, t)
+            res = gemini(t)
             now_time = time.time()
             while free_time > now_time:
                 time.sleep(0.1)

@@ -224,7 +224,8 @@ def check_if_name(names,result):
         if name in result:
             return True
 
-
+def distribute_images():
+    inted = random.randint(1,4)
 
 
 def main():
@@ -238,7 +239,7 @@ def main():
                 #last_text, last_author = text, author
                 #print(f"{text}  {author}")
                 print("Описание")
-                new_description = describe(f"ты должен дать список НОВЫХ сообщений в чате. Структура - 'Никнейм: сообщение'. СООБЩЕНИЯ КОТОРЫЕ БЫЛИ ДО ЭТОГО: {description}. Ты не должен считать 'Игрок: голос отдан' за сообщение. Также ты НЕ должен считать сообщенияЮ которые отправил ты. Реагируй только на чужие. ЗАСЧИТЫВАЙ ТОЛЬКО ТЕ СООБЩЕНИЯ, КОТОРЫЕ ИДУТ ПОСЛЕ ЗНАКОМЫХ СООБЩЕНИЙ. -- ЭТО ВАЖНО!!!")
+                new_description = describe(f"Ты находишься в чате иры Among Us. Сообщения появляются снизу и движутся вверх, когда появляются новые. Твоя задача, это получить из изображения НОВЫЕ сообщения, которых нет в СТАРЫХ сообщениях: {description}- это старые сообщения. Найди новые.")
                 print(new_description)
 
                 if not new_description.strip() == "-":
@@ -317,7 +318,7 @@ def main():
                             if el != me1.split("%")[-1]:
                                 time.sleep(2.4)
                 else:
-                    time.sleep(1.4)
+                    time.sleep(4)
                 #while text == last_text and author == last_author:
                 #    #print("text and author last")
                 #    time.sleep(0.5)
@@ -326,10 +327,9 @@ def main():
                 print("not chat")
                 time.sleep(0.5)
 if __name__ == "__main__":
-    #change_params("speed:+1")
-    #exit()
-    send_chat("Бот Саня Started")
-    try:
+        #change_params("speed:+1")
+        #exit()
+
+        send_chat("Бот Саня Started")
         main()
-    except:
         send_chat("Бляя... Я сломался")

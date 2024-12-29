@@ -5,8 +5,9 @@ from mss import mss
 from PIL import Image
 
 # НЕ РЕКОМЕНДУЕТСЯ! Используйте переменные окружения
-#key = 'AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec'  # Замените на ваш ключ
-key = 'AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ'  # Замените на ваш ключ
+#key = 'AIzaSyD5JFHAtqA-vLFJm3NN8uA4vLkqV7kAjOY'   # 1-
+key = 'AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec'  # ?
+#key = 'AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ'  # 3
 genai.configure(api_key=key)
 
 model = genai.GenerativeModel('gemini-1.5-flash')
@@ -18,7 +19,7 @@ chat_session = {
 
 def describe(zapros):
         # Добавляем запрос в историю
-        chat_session['history'].append({'user': zapros, 'response': None})
+        #chat_session['history'].append({'user': zapros, 'response': None})
 
         with mss() as sct:
             mon = sct.monitors[0]
@@ -42,7 +43,7 @@ def describe(zapros):
         response.resolve()
 
         # Сохраняем ответ в историю
-        chat_session['history'][-1]['response'] = response.text
+        #chat_session['history'][-1]['response'] = response.text
         #chat_session2.history.append({"role": "model", "parts":f"description of screenshot: {response.text}"})
 
         return response.text
