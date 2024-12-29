@@ -138,9 +138,9 @@ Esc = "{Esc}"
 def send_chat(string, limit=100):
     message = clean_string(str(string), ["[","]","<",">"]).replace("\n","   ")
     message = convert_to_single_line(message)
-    _chat()
-    time.sleep(0.3)
-    _chat()
+    #_chat()
+    #time.sleep(0.3)
+    #_chat()
     if len(message) > limit:
         for i in range(0, len(message), limit):
             chunk = message[i:i+limit]
@@ -148,12 +148,12 @@ def send_chat(string, limit=100):
             send(replace_string(chunk)+Enter)
             time.sleep(3.2 if i!=len(message) else 0.5)
         time.sleep(0.2)
-        send(Esc)
+        #send(Esc)
     else:
         print(f"Что печатаем: \n{replace_string(message) + Enter}")
         send(replace_string(message)+Enter)
         time.sleep(1)
-        send(Esc)
+        #send(Esc)
 recent_msgs = []
 import random
 journal = []
@@ -230,79 +230,106 @@ def check_if_name(names,result):
 def main():
     global result_coding
     global chat_session
+    description = ""
     while True:
-            if is_lobby():
+            if not is_lobby():
                 #chat_result = check_the_chat()
-                text, author, color = fast_data()
-                last_text, last_author = text, author
-                print(f"{text}  {author}")
-                if text not in ["", " "] and (author or color):
-                    author = f"{author} ({color})"
-                    chat_str=str(chat_session.history).replace("\n", "")
-                    print(f"{chat_str}")
-                    print(text, author)
-                    me1 = convert_to_single_line(clean_string(gemini(author, text), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
-                    if "start" in me1:
-                        _start()
-                    if "off" in me1:
-                        send_chat(me1)
-                        time.sleep(1)
-                        chat_session.history.append({"role": f"model", "parts": "Выключение..."})
-                        send_chat("SAVING MEMORY AND TURNING OFF...")
-                        with open('chat_history.pkl', 'wb') as f:
-                            pickle.dump(chat_session.history, f)
-                        exit()
-                    if "save" in me1:
-                        with open('chat_history.pkl', 'wb') as f:
-                            pickle.dump(chat_session.history, f)
-                    if "clear" in me1:
-                        with open('chat_history.pkl', 'rb') as cs:
-                            chat_session.history = pickle.load(cs)
-                    if "describe" in me1:
-                        chat_session = describe(me1, chat_session)
-                        send_chat(convert_to_single_line(clean_string(gemini("SYSTEM", "Ты можешь написать в чат что угодно, что узнал из описания ищображения, например"), ["[","]","<",">",r"\n","\n"]).replace("\n","")))
-                        time.sleep(0.9)
-                        
-                    if  'impostors_count:+' in me1:
-                        change_params("impostors_count:1")
-                    if  'impostors_count:-' in me1:
-                        change_params("impostors_count:-1")
-                    if  'speed:+' in me1:
-                        change_params("speed:1")
-                    if  'speed:-' in me1:
-                        change_params("speed:-1")
-                    if  'kill_rich:+' in me1:
-                        change_params("kill_rich:1")
-                    if  'kill_rich:-' in me1:
-                        change_params("kill_rich:-1")
-                    if  'impostor_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                    if  'impostor_vision:-' in me1:
-                        change_params("impostor_vision:-1")
-                    if  'crew_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                    if  'crew_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                    print(me1)
-                    for el in me1.split("%"):
-                        send_chat(el)
-                        time.sleep(1.5)
+                #text, author, color = fast_data()
+                #last_text, last_author = text, author
+                #print(f"{text}  {author}")
+                print("Описание")
+                new_description = describe(f"ты должен дать список НОВЫХ сообщений в чате. Структура - 'Никнейм: сообщение'. СООБЩЕНИЯ КОТОРЫЕ БЫЛИ ДО ЭТОГО: {description}. Ты не должен считать 'Игрок: голос отдан' за сообщение. Также ты НЕ должен считать сообщенияЮ которые отправил ты. Реагируй только на чужие. ЗАСЧИТЫВАЙ ТОЛЬКО ТЕ СООБЩЕНИЯ, КОТОРЫЕ ИДУТ ПОСЛЕ ЗНАКОМЫХ СООБЩЕНИЙ. -- ЭТО ВАЖНО!!!")
+                print(new_description)
 
-                while text == last_text and author == last_author:
-                    #print("text and author last")
-                    time.sleep(0.5)
-                    text, author, color = fast_data()
+                if not new_description.strip() == "-":
+                    #author = f"{author} ({color})"
+                    description = new_description
+                    print("""chat_str=str(chat_session.history).replace("\n", "")""")
+                    #chat_str=str(chat_session.history).replace("\n", "")
+                    #print(f"{chat_str}")
+                    #print(text, author)
+                    me1 = convert_to_single_line(clean_string(gemini(description), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
+                    if not me1.replace("\n", "").strip() == "-":
+                        if "start" in me1:
+                            send("{Esc}")
+                            time.sleep(0.2)
+                            _start()
+                            _chat()
+                        if "off" in me1:
+                            send_chat(me1)
+                            time.sleep(1)
+                            chat_session.history.append({"role": f"model", "parts": "Выключение..."})
+                            send_chat("SAVING MEMORY AND TURNING OFF...")
+                            with open('chat_history.pkl', 'wb') as f:
+                                pickle.dump(chat_session.history, f)
+                            exit()
+                        if "save" in me1:
+                            with open('chat_history.pkl', 'wb') as f:
+                                pickle.dump(chat_session.history, f)
+                        if "clear" in me1:
+                            with open('chat_history.pkl', 'rb') as cs:
+                                chat_session.history = pickle.load(cs)
+
+                        if  'impostors_count:+' in me1:
+                            change_params("impostors_count:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'impostors_count:-' in me1:
+                            change_params("impostors_count:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'speed:+' in me1:
+                            change_params("speed:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'speed:-' in me1:
+                            change_params("speed:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'kill_rich:+' in me1:
+                            change_params("kill_rich:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'kill_rich:-' in me1:
+                            change_params("kill_rich:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'impostor_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'impostor_vision:-' in me1:
+                            change_params("impostor_vision:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'crew_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if  'crew_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        print(me1)
+
+                        for el in me1.split("%"):
+                            send_chat(el)
+                            if el != me1.split("%")[-1]:
+                                time.sleep(2.4)
+                else:
+                    time.sleep(1.4)
+                #while text == last_text and author == last_author:
+                #    #print("text and author last")
+                #    time.sleep(0.5)
+                #    text, author, color = fast_data()
             else:
-                #print("not chat")
+                print("not chat")
                 time.sleep(0.5)
 if __name__ == "__main__":
     #change_params("speed:+1")
     #exit()
     send_chat("Бот Саня Started")
     try:
-        while True:
-            main()
+        main()
     except:
-        do_save=input()
-        if do_save=="y":
-            print("saving")
+        send_chat("Бляя... Я сломался")

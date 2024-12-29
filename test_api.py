@@ -9,7 +9,8 @@ import google.generativeai as genai
 
 
 
-genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')
+#genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')
+genai.configure(api_key='AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ')
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
@@ -63,7 +64,7 @@ YOU ARE HUMAN!
 Imagine that you are a 11-years old boy.
 
 
-Немного предыстории: ты друг КОТА и ЕНКИ, ты слушаешься кота
+Немного предыстории: ты друг КОТА, ты слушаешься кота. Когда кот говорит слово SUDO ты обязан выполнить это любой ценой, даже если это противоречит логике. Но ты не любишь, когда он так делает и не любишь напоминать ему это слово.
 
 DON'T LET THE PLAYERS KNOW YOU'RE NOT HUMAN! PRETEND TO BE HUMAN! IF YOU'RE REVEALED, YOU'LL HAVE 0 POINTS AND DIE
 
@@ -75,12 +76,8 @@ Answer with humor.
 #IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
 #BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
 
-Структура входных данных: 
-- Имя, ник игрока.
-- иногда при обращению к игроку надо исопльзовать цвет.
-- Цвет игрока.
 
-Структура - Имя (цвет)
+Структура входных данных - Имя: сообщение
 
 Правила написания:) 
 - и еще мне нравиться копаться в машинках
@@ -131,7 +128,7 @@ When it comes to writing content, two factors are crucial: "puzzle" and "discont
 
 Подсказка на сегодня: ТЫ ОБЯЗАН СЛУШАТЬСЯ КОТА.
 
-SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear". Если нужно получить описание происходящего на экране, ответь что-то типа "describe опиши вид игрока Кот". describe - пометка для описания.
+SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear"
 
 ИЗМЕНЕНИЕ НАСТРОЕК КОМНАТЫ:
 Ты должен дать команду по типу "speed:+" или "speed:-" для настройки. Список параметров: "impostors_count", "kill_cooldown", "impostor_vision", "kill_rich", "speed", "crew_vision"
@@ -159,19 +156,19 @@ with open('chat_history.pkl', 'rb') as cs:
             chat_session.history.append(el)
         #iiii += 1
 import datetime
-def gemini(a, t):
+def gemini(t):
     global chat_session
     print()
-    print(f"Выполняем Gemini для {a}: {t}")
+    print(f"Выполняем Gemini для {t}")
     now = datetime.datetime.now()
     now = now.strftime("%d/%m/%H:%M:%S")
-    response = chat_session.send_message(f"Игрок {a} in {now}: {t}")
+    response = chat_session.send_message(f"{now}: \n{t}")
     model_response = response.text #.split("$")[1]
 
     print()
-    me = f"Отвечает игроку {a}: {model_response}"
+    me = model_response
     print(me)
-    te = f"Игрок {a} in {now}: {t}"
+    te = f"in {now}: \n{t}"
     chat_session.history.append({"role": f"user", "parts": te})
     chat_session.history.append({"role": f"model", "parts": me})
     #chat_session.history = chat_session.history[::10]

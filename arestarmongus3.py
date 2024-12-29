@@ -90,7 +90,8 @@ def _settings():
 import pyautogui
 import time
 def change_params(param):
-
+    send("{Esc}")
+    time.sleep(0.2)
     dict_of_coords = {
         "impostors_count": 320,
         "kill_cooldown": 410,
