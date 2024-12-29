@@ -232,7 +232,7 @@ def capture_screenshot(monitor_data):
         img = Image.fromarray(img_np)
         img = img.resize((320, 180)) # Resize for comparison
         return img, np.array(img)
-
+import re
 
 def main():
     global result_coding
@@ -256,23 +256,28 @@ def main():
                 new_img = capture_screenshot(chat_config)
 
                 # Сравниваем изображения
-                difference = cv.subtract(old_img[1], new_img[1])
-                result = np.any(difference)
+                #difference = cv.subtract(old_img[1], new_img[1])
+                #result = np.any(difference)
 
-                if result or should_do:
+                if should_do:
+                    time.sleep(3)
                     print("Описание")
-                    description = describe(f"Ты находишься в чате иры Among Us. Сообщения появляются снизу и движутся вверх, когда появляются новые. Твоя задача, это получить из изображения НОВЫЕ сообщения, которых нет в СТАРЫХ сообщениях: {description}- это старые сообщения. Найди новые.")
-                    print(description)
+                    description = describe(f"Ты находишься в чате иры Among Us. Твоя задача -  это получить из изображения ВСЕ сообщения. Системные сообщения 'голос отдан' не в счет. Ты в чате - Саня (добавь скобках, что это твое сообщение). Формат вывода: 'автор:сообщение' именнр так, как написано в чате!. Не используй форматирование по типу ** для жирного, оно не сработает. ТЫ ДОЛЖЕН ВЫДАВАТЬ В ОТВЕТ ТОЛЬКО НОВЫЕ СООБЩЕНИЯ!!!! СТАРЫЕ СООБДЕНИЯ: {description}. ЕСЛИ НЕТ НОВЫХ СООБЩЕНИЯ, В ОТВЕТ ВЫДАЕШЬ 1 ЗНАК МИНУС!! ИГНОРИРУЙ СООБЩЕНИЯ, КОТОРЫЕ ПРИСЛАЛ САНЯ!!!", new_img[0])
 
+
+
+
+
+                    #old_img = new_img
                     # Показать разницу (опционально)
-                    cv.imshow("Difference", difference)
-                    cv.waitKey(0)
-                    cv.destroyAllWindows()
+                    #cv.imshow("Difference", difference)
+                    #cv.waitKey(0)
+                    #cv.destroyAllWindows()
 
                     print("Pictures are different.")
-
-
-                    me1 = convert_to_single_line(clean_string(gemini(description), ["[","]","<",">",r"\n","\n"]).replace("\n",""))
+                    chat_session.history.append({"role":"user", "parts":description})
+                    me1 = convert_to_single_line(
+                        clean_string(gemini(description), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
                     if not me1.replace("\n", "").strip() == "-":
                         if "start" in me1:
                             send("{Esc}")
@@ -294,43 +299,43 @@ def main():
                             with open('chat_history.pkl', 'rb') as cs:
                                 chat_session.history = pickle.load(cs)
 
-                        if  'impostors_count:+' in me1:
+                        if 'impostors_count:+' in me1:
                             change_params("impostors_count:1")
                             time.sleep(0.4)
                             _chat()
-                        if  'impostors_count:-' in me1:
+                        if 'impostors_count:-' in me1:
                             change_params("impostors_count:-1")
                             time.sleep(0.4)
                             _chat()
-                        if  'speed:+' in me1:
+                        if 'speed:+' in me1:
                             change_params("speed:1")
                             time.sleep(0.4)
                             _chat()
-                        if  'speed:-' in me1:
+                        if 'speed:-' in me1:
                             change_params("speed:-1")
                             time.sleep(0.4)
                             _chat()
-                        if  'kill_rich:+' in me1:
+                        if 'kill_rich:+' in me1:
                             change_params("kill_rich:1")
                             time.sleep(0.4)
                             _chat()
-                        if  'kill_rich:-' in me1:
+                        if 'kill_rich:-' in me1:
                             change_params("kill_rich:-1")
                             time.sleep(0.4)
                             _chat()
-                        if  'impostor_vision:+' in me1:
+                        if 'impostor_vision:+' in me1:
                             change_params("impostor_vision:1")
                             time.sleep(0.4)
                             _chat()
-                        if  'impostor_vision:-' in me1:
+                        if 'impostor_vision:-' in me1:
                             change_params("impostor_vision:-1")
                             time.sleep(0.4)
                             _chat()
-                        if  'crew_vision:+' in me1:
+                        if 'crew_vision:+' in me1:
                             change_params("impostor_vision:1")
                             time.sleep(0.4)
                             _chat()
-                        if  'crew_vision:+' in me1:
+                        if 'crew_vision:+' in me1:
                             change_params("impostor_vision:1")
                             time.sleep(0.4)
                             _chat()
@@ -340,9 +345,9 @@ def main():
                             send_chat(el)
                             if el != me1.split("%")[-1]:
                                 time.sleep(2.4)
-                else:
-                    print("Pictures are not different")
-                    time.sleep(4)
+                    else:
+                        print("not sending, sleep")
+                        time.sleep(4)
                 #while text == last_text and author == last_author:
                 #    #print("text and author last")
                 #    time.sleep(0.5)
@@ -354,6 +359,6 @@ if __name__ == "__main__":
         #change_params("speed:+1")
         #exit()
 
-        send_chat("Бот Саня Started")
+        #send_chat("Бот Саня Started")
         main()
         send_chat("Бляя... Я сломался")
