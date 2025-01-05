@@ -182,7 +182,38 @@ def replace_string(input_str):
 
     return output_str
 
-
+def up(tm):
+    send("{Up down}")
+    time.sleep(tm)
+    send("{Up up}")
+def left(tm):
+    send("{Left down}")
+    time.sleep(tm)
+    send("{Left up}")
+def right(tm):
+    send("{Right down}")
+    time.sleep(tm)
+    send("{Right up}")
+def down(tm):
+    send("{Down down}")
+    time.sleep(tm)
+    send("{Down up}")
+def up_left(tm):
+    send("{Up down}{Left down}")
+    time.sleep(tm)
+    send("{Up up}{Left up}")
+def up_right(tm):
+    send("{Up down}{Right down}")
+    time.sleep(tm)
+    send("{Up up}{Right up}")
+def down_left(tm):
+    send("{Up down}")
+    time.sleep(tm)
+    send("{Up up}")
+def down_right(tm):
+    send("{Down down}{Right down}")
+    time.sleep(tm)
+    send("{Down up}{Right up}")
 import json
 
 def save_data(name, data):
@@ -252,6 +283,7 @@ def main():
 
     description = ""
     while True:
+            _chat()
             if not is_lobby():
                 new_img = capture_screenshot(chat_config)
 
@@ -358,7 +390,6 @@ def main():
 if __name__ == "__main__":
         #change_params("speed:+1")
         #exit()
-
         #send_chat("Бот Саня Started")
         main()
         send_chat("Бляя... Я сломался")

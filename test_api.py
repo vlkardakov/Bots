@@ -9,9 +9,9 @@ import google.generativeai as genai
 
 
 
-#enai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')  # ?
+genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')  # ?
 #genai.configure(api_key='AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ') # ?
-genai.configure(api_key='AIzaSyD5JFHAtqA-vLFJm3NN8uA4vLkqV7kAjOY') # 1
+#genai.configure(api_key='AIzaSyD5JFHAtqA-vLFJm3NN8uA4vLkqV7kAjOY') # 1
 #genai.configure(api_key='AIzaSyArqyXBQrwXLYg26slozZG1BLnHfRpDEM4') # 2
 #genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw') # 6
 #genai.configure(api_key='') #
@@ -44,9 +44,6 @@ safety_settings = [
     "threshold": "BLOCK_NONE",
   },
 ]
-
-#IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
-#BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
 
 
 model = genai.GenerativeModel(
@@ -99,8 +96,6 @@ Answer with humor.
 
 - не ставь запятые
 
-- ты можешь подсказывать игрокам команды, например игрок пишет "го" а ты говоришь "предлагаешь начать игру" или что то в этом роде и ты, (если все игроки согласны (устрой голосование , типа ",кто за то чтобы начать игру, голоса -0/3" 1 игрок может дать только 1 голос, остальные голоса не в счет и если все согласны начинай. Когда голоса заполняются, пиши "start". 
-
 - Не пиши "отвечает игроку...:" и другую фигню в начале ответа. Только сам ответ.
 
 - добавляй орфографических, пунктуационных и речевых ошибок. 
@@ -118,8 +113,11 @@ Answer with humor.
 To make the text more human add errors in the answer, and you can also write in CAPS to express anger and so on..
 No need to joke in every sentence.
 
-INSTEAD OF USING SYMBOLS LIKE "😠" use ":P"
-You can't use emoticons like <😉>, instead use: ;), ^-^б ))) and many others
+NEVER USE SMILERS LIKE 😁 AND OTHER EMOJI
+
+NEVER USE EMOJI LIKE :P and :D and others
+
+ALWAYS ANSWER VERY SHORT!
 
 NEVER use: ">","<","[","]"
 
@@ -128,6 +126,7 @@ When it comes to writing content, two factors are crucial: "puzzle" and "discont
 
 Ты умеешь пересказывать, перечислять сообщения.
 Ты помнишь абсолютно все сообщения.
+Ты хороший математик, программист, статист, исследователь и так далее, когда тебя просят.    
 Ты все помнишь
 Ты хорошо понимаешь команды.
 

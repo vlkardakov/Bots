@@ -13,6 +13,8 @@ api_keys = [
     #"AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw",
     "AIzaSyCF4gSrVqI7wqP8jfOdD7V-fDo_TAImflY", # 9
     "AIzaSyDENOL9VDuCYYKsx_GkaYa_7qjrSPgiONM", # 10
+    "AIzaSyCfLsRDmgJcgbkVVFGXOzIOd4heFtsvnnM", # mail@vlkardakov.ru
+    # "","","","","","","","",""
 ]
 
 key_index = 0
@@ -46,7 +48,7 @@ def describe(zapros, img):
 
     genai.configure(api_key=current_key)
 
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
     response = model.generate_content([
         f"запрос пользователя: {zapros}",
@@ -60,6 +62,20 @@ def describe(zapros, img):
 
 if __name__ == "__main__":
     while True:
+        with mss() as sct:
+            mon = sct.monitors[0]
+            chat_config = {
+                "top": mon["top"] + 87,  # 100px from the top
+                "left": mon["left"] + 374,  # 100px from the left
+                "width": mon["width"] - 880,  # 2800,  # Исправлено: width вместо what
+                "height": 648
+            }
+        with mss() as sct:
+            sct_img = sct.grab(chat_config)
+            img_np = np.frombuffer(sct_img.bgra, dtype=np.uint8).reshape(sct_img.height, sct_img.width, 4)
+            img_np = img_np[..., :3][:, :, ::-1]  # BGRA -> RGB
+            img = Image.fromarray(img_np)
+            img = img.resize((320, 180))  # Resize for comparison
         #t = input("::")
-        print(describe("Проанализируй изображение и назови программу, в которой был сделан скриншот. Только название."))
+        print(describe("Проанализируй изображение и назови программу, в которой был сделан скриншот. Только название.", img))
         print(len(zaprosi_history))
