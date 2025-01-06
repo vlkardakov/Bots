@@ -14,6 +14,8 @@ api_keys = [
     "AIzaSyCF4gSrVqI7wqP8jfOdD7V-fDo_TAImflY", # 9
     "AIzaSyDENOL9VDuCYYKsx_GkaYa_7qjrSPgiONM", # 10
     "AIzaSyCfLsRDmgJcgbkVVFGXOzIOd4heFtsvnnM", # mail@vlkardakov.ru
+    "AIzaSyBX2ERx5-x6tnctQgED7MK5YWBXHFkeQJ0", # 11
+    "AIzaSyA4BJ03mlU-hff2wqOH2Gh_YsqMMhcF1NE", #АБОБА
     # "","","","","","","","",""
 ]
 
@@ -23,7 +25,6 @@ current_key = api_keys[0]
 zaprosi_history = []
 
 def get_next_api_key():
-    """Gets the next API key in a circular fashion."""
     global key_index
 
     key_index = (key_index + 1) % len(api_keys) # Circular increment
@@ -41,9 +42,9 @@ def describe(zapros, img):
             del zaprosi_history[i]
 
     if len(zaprosi_history) > 0:
-        print("ПЕРЕКЛЮЧАЮСЬ...")
+        #print("ПЕРЕКЛЮЧАЮСЬ...")
         current_key = get_next_api_key()
-        print(f"Переключено на {current_key}")
+        #print(f"Переключено на {current_key}")
         zaprosi_history = []
 
     genai.configure(api_key=current_key)
