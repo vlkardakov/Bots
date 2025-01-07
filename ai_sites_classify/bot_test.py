@@ -286,8 +286,10 @@ def handle_document(message):
                     if os.path.exists('ОТЧЁТ.csv'):
                         with open('ОТЧЁТ.csv', 'rb') as report:
                             bot.send_document(message.chat.id, report, caption=f"Запрос занял {time.time() - time1} секунд")
-                            time.sleep(4)
+                            time.sleep(20)
                             os.remove("ОТЧЁТ.csv")
+                            bot.reply_to(message,
+                                         f"Готов!")
                             #stop_processing = False
                     else:
                         bot.reply_to(message, f"Мошеннических сайтов не обнаружено. Запрос занял {time.time() - time1} секунд")
