@@ -5,23 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8b632ff-bdbc-4847-97cc-1081e6ec50bc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/checked_domains.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/edit_checked.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/edit_verified.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/get_domain.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/massive.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/save.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai_sites_classify/test_of_rep.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai_sites_classify/press.exe" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/amongUsParser/chat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/.~lock.1_fixed.csv#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1_fixed.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/1_fixed.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/cleancsv.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/cleancsv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/.~lock.new.csv#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/.~lock.ОТЧЁТ О НЕБЕЗОПАСНЫХ САЙТАХ.csv#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1_fixed.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/checked_domains.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/checked_domains.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_sites_classify/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_sites_classify/module.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/module.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/new.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/new.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/verified_domains.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/verified_domains.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/ОТЧЁТ О НЕБЕЗОПАСНЫХ САЙТАХ.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/amongUsParser/read-live.py" beforeDir="false" afterPath="$PROJECT_DIR$/amongUsParser/read-live.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

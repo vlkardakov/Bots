@@ -159,7 +159,7 @@ def test():
                 else:
                     print("PASS")
             except:
-                save(f"ОТЧЁТ О НЕБЕЗОПАСНЫХ САЙТАХ", scams)
+                save(f"ОТЧЁТ", scams)
                 save_checked(checked_domains)
                 save_verified(verified_domains)
                 err_count -= 1
@@ -173,7 +173,7 @@ def test():
     #now = datetime.datetime.now()
     #formatted_datetime = now.strftime("%d.%m.%Y %H:%M")
     print("РАБОТА ОКОНЧЕНА, СОХРАНЕНИЕ")
-    save(f"ОТЧЁТ О НЕБЕЗОПАСНЫХ САЙТАХ", scams)
+    save(f"ОТЧЁТ", scams)
     save_checked(checked_domains)
     save_verified(verified_domains)
     print("ОТКЛЮЧЕНИЕ")

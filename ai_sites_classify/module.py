@@ -49,7 +49,7 @@ def describe(zapros, img):
 
     genai.configure(api_key=current_key)
 
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
     response = model.generate_content([
         f"запрос пользователя: {zapros}",
@@ -58,8 +58,11 @@ def describe(zapros, img):
     response.resolve()
 
     zaprosi_history.append({"time":time.time(), "text":response.text})
+    result = response.text
+    if isinstance(result, bytes):
+        result = result.decode('utf-8', errors='replace')
 
-    return response.text
+    return result
 
 if __name__ == "__main__":
     while True:
