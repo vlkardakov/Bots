@@ -114,7 +114,7 @@ def clean_string(s, bads):
 
 
 def islobby(template, threshold):
-    with mss.mss() as sct:
+    with mss() as sct:
         # Координаты и размеры области захвата
         mon = sct.monitors[monum]
         monitor = {
@@ -291,18 +291,6 @@ from describe_screen import describe
 from arestarmongus3 import _start
 import pickle
 
-with open('chat_history.pkl', 'rb') as cs:
-    # chat_session.history = pickle.load(cs)
-    chat_session.history = []
-    loaded = pickle.load(cs)
-    iiii = 0
-    for el in loaded:
-        if iiii % 2 == 0:
-            pass
-            # chat_session.history.append(el)
-        iiii += 1
-
-
 def check_if_name(names, result):
     for name in names:
         if name in result:
@@ -323,49 +311,23 @@ import re
 
 
 def main():
-    global result_coding
-    global chat_session
+    global result_coding, chat_session, messages, new_messages
+    timeing = 5
 
-    with mss.mss() as sct:
-        mon = sct.monitors[0]
-        chat_config = {
-            "top": mon["top"] + 87,  # 100px from the top
-            "left": mon["left"] + 374,  # 100px from the left
-            "width": mon["width"] - 880,  # 2800,  # Исправлено: width вместо what
-            "height": 648
-        }
-
-    old_img = capture_screenshot(chat_config)
-    should_do = True
-
-    description = ""
     while True:
         _chat()
         if not is_lobby():
-            new_img = capture_screenshot(chat_config)
+            print('checking is chat open...')
+            time.sleep(timeing)
 
-            # Сравниваем изображения
-            # difference = cv.subtract(old_img[1], new_img[1])
-            # result = np.any(difference)
-
-            if should_do:
-                time.sleep(3)
-                print("Описание")
-                description = describe(
-                    f"Ты находишься в чате иры Among Us. Твоя задача -  это получить из изображения ВСЕ сообщения. Системные сообщения 'голос отдан' не в счет. Ты в чате - Саня (добавь скобках, что это твое сообщение). Формат вывода: 'автор:сообщение' именнр так, как написано в чате!. Не используй форматирование по типу ** для жирного, оно не сработает. ТЫ ДОЛЖЕН ВЫДАВАТЬ В ОТВЕТ ТОЛЬКО НОВЫЕ СООБЩЕНИЯ!!!! СТАРЫЕ СООБДЕНИЯ: {description}. ЕСЛИ НЕТ НОВЫХ СООБЩЕНИЯ, В ОТВЕТ ВЫДАЕШЬ 1 ЗНАК МИНУС!! ИГНОРИРУЙ СООБЩЕНИЯ, КОТОРЫЕ ПРИСЛАЛ САНЯ!!!",
-                    new_img[0])
-
-                # old_img = new_img
-                # Показать разницу (опционально)
-                # cv.imshow("Difference", difference)
-                # cv.waitKey(0)
-                # cv.destroyAllWindows()
-
-                print("Pictures are different.")
-                chat_session.history.append({"role": "user", "parts": description})
+            if refresh_chat():
+                timeing = abs(timeing - 1)
+                print('checking news...')
                 me1 = convert_to_single_line(
-                    clean_string(gemini(description), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
+                    clean_string(ask_gemini(), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
                 if not me1.replace("\n", "").strip() == "-":
+                    print('Проверка на команды')
+
                     if "start" in me1:
                         send("{Esc}")
                         time.sleep(0.2)
@@ -374,7 +336,6 @@ def main():
                     if "off" in me1:
                         send_chat(me1)
                         time.sleep(1)
-                        chat_session.history.append({"role": f"model", "parts": "Выключение..."})
                         send_chat("SAVING MEMORY AND TURNING OFF...")
                         with open('chat_history.pkl', 'wb') as f:
                             pickle.dump(chat_session.history, f)
@@ -440,7 +401,8 @@ def main():
             #    time.sleep(0.5)
             #    text, author, color = fast_data()
         else:
-            print("not chat")
+            print(f"not chat, увеличиваем timeing с {timeing} до {timeing+0.5}")
+            timeing += 0.5
             time.sleep(0.5)
 
 

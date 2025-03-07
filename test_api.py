@@ -171,32 +171,47 @@ SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start 
 
 например чтобы увеличить количество предателей: "impostors_count:+"
 
+
+Если ты хочешь промолчать: в ответ 1 знак минуса
 """,
 )
+
+messages = []
+new_messages = []
 
 chat_session = model.start_chat(
     history=[]
 )
 
+def boolean(string):
+    return string != '-'
 
-def ask_gemini(player, t):
-    global chat_session
+def ask_gemini():
+    global chat_session, messages, new_messages
     print()
-    print(f"Выполняем Gemini для {t}")
-    now = datetime.datetime.now()
-    now = now.strftime("%d/%m/%H:%M:%S")
-    te = f"({now}) {player}: \n{t}"
-    response = chat_session.send_message(te)
+    prompt = """Ты - Саня. Вот список сообщений за всё время. ПРОЧИТАННЫЕ: """
+
+    for el in messages:
+        prompt += f'\n{el}'
+
+    prompt += f'\nНОВЫЕ: '
+
+    for el in new_messages:
+        prompt += f'\n{el}'
+        messages.append(el)
+
+    prompt += '\n\nПроанализируй чат и ответь на все или некоторые сообщения. Если хочешь промолчать - в ответ 1 знак минуса'
+
+    new_messages = []
+
+    response = chat_session.send_message(prompt)
     model_response = response.text #.split("$")[1]
 
     print()
     me = model_response
     print(me)
 
-    chat_session.history.append({"role": f"user", "parts": te})
-    chat_session.history.append({"role": f"model", "parts": me})
     return model_response
-
 
 def describe(zapros, img):
     global key_index, keys_proxies, zaprosi_history, current_key
@@ -246,8 +261,33 @@ def describe(zapros, img):
         if '429' in str(e):
             keys_proxies.remove(current)
             print('errrrr')
+def makescreen():
+    with mss() as sct:
+        monitor = sct.monitors[1]  # Primary monitor
+        sct_img = sct.grab(monitor)
+        return Image.frombytes("RGB", (sct_img.width, sct_img.height), sct_img.rgb)
 
-def descrypt():
-    
 
+def refresh_chat():
+    global messages, new_messages
+    img = makescreen()
+    prompt = \
+"""
+Ты видишь перед собой экран чата игры амонг ас.
+Перечисли сообщения, которые идут после перечисленных:
+"""
+    for el in messages:
+        prompt += f'\n{el}'
+    for el in new_messages:
+        prompt += f'\n{el}'
+    prompt = prompt +'\nТы должен пометить игрока Саня как "Я" и Обращать внимание только на собщения ниже уже перечисленных.\nЕсли ты не можешь или не видишь чата, выдай 1 знак минуса в ответе.'
+
+    print(f'{prompt=}')
+    response = describe(prompt, img)
+    if boolean(response):
+        for row in response:
+            new_messages.append(row)
+        return response
+    else:
+        return None
 
