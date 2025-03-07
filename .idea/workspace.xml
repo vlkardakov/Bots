@@ -8,8 +8,27 @@
       <change afterPath="$PROJECT_DIR$/amongUsParser/chat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/LeakSearch/LeakSearch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/1_fixed.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/bot_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/bot_test.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/checked_domains.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/cleancsv.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/edit_checked.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/edit_verified.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/get_domain.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/main.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/massive.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/module.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/new.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/press.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/read.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/save.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/tempimg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/test_of_rep.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/verified_domains.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai_sites_classify/ОТЧЁТ.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/amongUsParser/read-live.py" beforeDir="false" afterPath="$PROJECT_DIR$/amongUsParser/read-live.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,20 +63,25 @@
     "Python.start.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/vlkardakov/Documents/1/Bots/ai_sites_classify",
+    "last_opened_file_path": "C:/Users/vlkardakov/Documents/1/ai-moder",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\vlkardakov\Documents\1\Bots\ai_sites_classify" />
       <recent name="C:\Users\vlkardakov\Documents\1\Bots" />
+      <recent name="C:\Users\vlkardakov\Documents\1\Bots\ai_sites_classify" />
       <recent name="C:\Program Files\jarvis-app\Yolo_amogus\Yolo-expirience" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vlkardakov\Documents\1\Bots\ai_sites_classify" />
       <recent name="C:\Users\vlkardakov\Documents\1\Bots" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="pip install FreeSimpleGUI" />
+    </option>
   </component>
   <component name="RunManager" selected="Python.start">
     <configuration name="artest2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">

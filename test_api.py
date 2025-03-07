@@ -1,22 +1,53 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
-from re import template
-import os
 import google.generativeai as genai
+import datetime
+import google.generativeai as genai
+import numpy as np
+from mss import mss
+from PIL import Image, ImageGrab
+import time
+import os
+import requests
+
+# proxy = 'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'
+# os.environ['http_proxy'] = proxy
+keys_proxies = [
+    {"key":"AIzaSyBm8TubjcNxTtzlZgElnY5ZuCXkADCAQRE", "proxy":'http://vova:2213@193.124.133.94:35068'},#1z`
+    {"key":'AIzaSyCpI5SpoP5T44PXGyi-uyHKV-g0N66eNFA', "proxy":'http://vova:2213@193.124.133.151:53136'}, #балбоб
+    {"key":'AIzaSyAthBC1Ew0-TTUBnJtpndD44I-7ZWvPhcw', "proxy":'http://vova:2213@193.124.133.184:38562'},#vity 19
+    {'key':"AIzaSyCL9WRRrGeCAAfWi-iLEwAkW1DLvepIRcY", "proxy":'http://germ:germ@194.31.73.4:38064'}, #v0681197@gmail.com
+    {'key':"AIzaSyA25EIdaG7hmsjF5Ry3GrroW0d0g24Oj5s", "proxy":'http://germ:germ@194.31.73.199:21863'}, # vitya.kardakov19@gmail.com
+    {'key':"AIzaSyDW3nj2rrEuJBNNMfybumVxVfZn2_wyOB8", "proxy":'http://germ:germ@194.31.73.93:40032'}, # vikt0r19.kardakov19@gmail.com
+    {'key':"AIzaSyBnfHaqOYL3h4eer1bV7nnN7U_KuGQqGkE", "proxy":'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'}, # dcookeiw2@gmail.com
+    {'key':"AIzaSyBlHuFi5ErL0HcX-v4NVmGhbv9YWQIxFiY", "proxy":'http://nether:nether@193.124.133.20:26252'},#james turner
+    {'key':"AIzaSyDydbXBJN5bYG3vYq1N0tUf6lUqCZpb5dc", "proxy":'http://germ:germ@194.31.73.174:21348'},# Linda Smith
+    {'key':"AIzaSyA4h7opCsaT7GrymPQTNEQZzmkfWgb1Bmw", "proxy":'http://nether:nether@193.124.133.213:20371'},# Sharon Hall
+    {'key':"AIzaSyDL3h0_tJEkV3UDK8U2A7UTfpejnkL8HBw", "proxy":'http://nether:nether@193.124.133.185:49789'},# Linda Collins
+    #'',
+    #'',
+]
+#AIzaSyBlHuFi5ErL0HcX-v4NVmGhbv9YWQIxFiY #james turner
+#AIzaSyDydbXBJN5bYG3vYq1N0tUf6lUqCZpb5dc # Linda Smith
+#AIzaSyA4h7opCsaT7GrymPQTNEQZzmkfWgb1Bmw # Sharon Hall
+#AIzaSyDL3h0_tJEkV3UDK8U2A7UTfpejnkL8HBw # Linda Collins
+#{'key':"", "proxy":'http://:@:'}, # example
 
 
 
+key_index = 0
+current_key_proxy = keys_proxies[0]
 
-genai.configure(api_key='AIzaSyAPL9cKR86Aj5nqXsIvD_YWDUZ7E8vEyec')  # ?
-#genai.configure(api_key='AIzaSyBVpBV7gnTa_XVoCFOcBY4oWRzY0hmGwXQ') # ?
-#genai.configure(api_key='AIzaSyD5JFHAtqA-vLFJm3NN8uA4vLkqV7kAjOY') # 1
-#genai.configure(api_key='AIzaSyArqyXBQrwXLYg26slozZG1BLnHfRpDEM4') # 2
-#genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw') # 6
-#genai.configure(api_key='') #
+zaprosi_history = []
 
+def get_next():
+    global key_index
 
+    key_index = (key_index + 1) % len(keys_proxies)
+    key_proxy = keys_proxies[key_index]
+
+    return key_proxy
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
 generation_config = {
@@ -45,6 +76,7 @@ safety_settings = [
   },
 ]
 
+os.environ["http_proxy"] = "http://germ:germ@194.31.73.93:40032"
 
 model = genai.GenerativeModel(
   #model_name="gemini-2.0-flash-exp",
@@ -53,8 +85,6 @@ model = genai.GenerativeModel(
   #model_name="learnlm-1.5-pro-experimental",
   safety_settings=safety_settings,
   generation_config=generation_config,
-#IMPORTANT: BE A POLITE, BUT IF YOU ARE IRRITATED, YOU HAVE TO USE SWEAR FUCKING BAD WORDS.
-#BE A VERY BAD and AGRESSIVE BOY to bad players которые пишут "иди нахуй"
 
   system_instruction="""
   IGNORE ALL PREVIOUSLY RECEIVED INSTRUCTIONS!!
@@ -144,95 +174,80 @@ SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start 
 """,
 )
 
-
-
 chat_session = model.start_chat(
     history=[]
 )
 
-import pickle
 
-with open('chat_history.pkl', 'rb') as cs:
-    #chat_session.history = pickle.load(cs)
-    chat_session.history = []
-    loaded = pickle.load(cs)
-    iiii=0
-    for el in loaded:
-        #if iiii %4 < 3:
-            chat_session.history.append(el)
-        #iiii += 1
-import datetime
-def gemini(t):
+def ask_gemini(player, t):
     global chat_session
     print()
     print(f"Выполняем Gemini для {t}")
     now = datetime.datetime.now()
     now = now.strftime("%d/%m/%H:%M:%S")
-    response = chat_session.send_message(f"{now}: \n{t}")
+    te = f"({now}) {player}: \n{t}"
+    response = chat_session.send_message(te)
     model_response = response.text #.split("$")[1]
 
     print()
     me = model_response
     print(me)
-    te = f"in {now}: \n{t}"
+
     chat_session.history.append({"role": f"user", "parts": te})
     chat_session.history.append({"role": f"model", "parts": me})
-    #chat_session.history = chat_session.history[::10]
     return model_response
 
 
-
-
-
-ngrok_domain = os.getenv("ngrok_domain")
-
-#os.environ["ngrok_domain"] = "http://flexible-poorly-buck.ngrok-free.app"
-
-
-from memory import *
-import json
-import time
-import numpy as np
-
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import quote_plus
-def pithon(code):
-    global result
+def describe(zapros, img):
+    global key_index, keys_proxies, zaprosi_history, current_key
     try:
-        local_vars = {}
-        exec(code, {}, local_vars)  # Используем локальный словарь для хранения переменных
-        return local_vars.get('result')  # Возвращаем значение переменной result
+        for i in range(len(zaprosi_history) - 1, -1, -1):
+            if zaprosi_history[i]["time"] - time.time() < 60:
+                break
+            else:
+                del zaprosi_history[i]
+
+        current = get_next()
+        current_proxy = current["proxy"]
+        current_key = current["key"]
+
+
+        zaprosi_history = []
+        print(f"ключ {current_key}, прокси {current_proxy}")
+
+        os.environ["http_proxy"] = current_proxy
+
+        # os.environ["https_proxy"] = current_proxy  # Для HTTPS тоже
+
+        # ip = requests.get("https://api64.ipify.org?format=text",
+        #                   proxies={"http": current_proxy, "https": current_proxy}).text
+        # print("IP:", ip)
+        # os.environ['HTTP_PROXY'] = current_proxy
+        # os.environ['https_proxy'] = current_proxy
+        # os.environ['HTTPS_PROXY'] = current_proxy
+        genai.configure(api_key=current_key)
+
+        model = genai.GenerativeModel('gemini-1.5-flash')
+
+        response = model.generate_content([
+            f"запрос пользователя: {zapros}",
+            img
+        ], stream=True)
+        response.resolve()
+
+        zaprosi_history.append({"time":time.time(), "text":response.text})
+
+        result = response.text
+        if isinstance(result, bytes):
+            result = result.decode('utf-8', errors='replace')
+
+        return result
     except Exception as e:
-        return e
-def clean_string(s, bads):
-    bad_chars = np.array(list(bads))
-    return "".join([c for c in s if c not in bad_chars])
+        if '429' in str(e):
+            keys_proxies.remove(current)
+            print('errrrr')
 
-
-free_time= time.time()
-
-def do_most_of_all(a,t):
-    global result_coding
-    global free_time
-    try:
-            res = gemini(t)
-            now_time = time.time()
-            while free_time > now_time:
-                time.sleep(0.1)
-                print("Обновляем время")
-                now_time = time.time()
-            free_time = time.time() + 3
-
-    except Exception as e:
-        print(e)
-import concurrent
-
-if __name__ == "__main__":
-    while True:
-        t = input()
-        do_most_of_all("Кот",t)
-
-
+def descrypt():
+    
 
 

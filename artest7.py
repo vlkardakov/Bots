@@ -1,5 +1,5 @@
 from xmlrpc.client import boolean
-
+import os
 import pytesseract
 from PIL import Image
 import mss
@@ -388,8 +388,6 @@ def main():
                 print("not chat")
                 time.sleep(0.5)
 if __name__ == "__main__":
-        #change_params("speed:+1")
-        #exit()
-        #send_chat("Бот Саня Started")
+
         main()
         send_chat("Бляя... Я сломался")

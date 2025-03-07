@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
 from re import template
 import os
 import google.generativeai as genai

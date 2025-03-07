@@ -1,0 +1,11 @@
+[Unit]
+ Description=My url checker service
+
+[Service]
+ User=root
+ WorkingDirectory=/urlservers/
+ ExecStart=/usr/bin/python3 /urlservers/urlserver0.py
+ Restart=always
+
+[Install]
+ WantedBy=multi-user.target

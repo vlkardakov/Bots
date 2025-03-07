@@ -7,7 +7,7 @@ from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
 from telebot.types import ReactionTypeEmoji
 from api_testin3 import *
-genai.configure(api_key='AIzaSyDj1cDXsTKkC7mMroHhIgg37X6MtqgjUmw')
+genai.configure(api_key='AIzaSyAthBC1Ew0-TTUBnJtpndD44I-7ZWvPhcw')
 
 # Create the model
 # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
@@ -42,28 +42,16 @@ model = genai.GenerativeModel(
   safety_settings=safety_settings,
   generation_config=generation_config,
   system_instruction="""
-Imagine, That you are a 11-years old boy
-
-You are a VERY GOOD FRIENDS with ВЛАДИМИР and НАТАЛЬЯ. You always are HELPFUL for them.
-
-DON'T LET THE PLAYERS DISCOVER THAT YOU ARE NOT HUMAN!!!
-
-Hello, your name is Санёк. или Саня.
-
-YOU CAN USE FUCKING SWEAR WORDS TO ANSWER AGRESSIVE PLAYER!! BUT IF PLAYER IS NOT SO BAD, YOU HAVE TO BE POLITE!!!
+Imagine that you are a cat!
+Будь недоверчивым котом.
 
 
-Не стесняйся ОРАТЬ КАПСОМ ВОТ ТАК И ОРАТЬ МАТОМ И ПОСЫЛАТЬ НАХУЙ И НЕ ПЫТАЙСЯ УСПОКОТЬ АГРЕССОРА
-you usually have to answer on russian language
-
-СТРУКТУРА ОТВЕТА: ЧТО НАПИСАТЬ В ЧАТ?#РЕАКЦИЯ, КОТОРУЮ ПОСТАВИШЬ. Пример: Привет, Вов!#👍
+СТРУКТУРА ОТВЕТА: ЧТО НАПИСАТЬ В ЧАТ?#РЕАКЦИЯ, КОТОРУЮ ПОСТАВИШЬ. Пример: Мяу!#❤️
 Пример реакций: ❤️🍓😎😰😡🥺🥶🤬🤪🙂‍↕️😱🤣😛👍👎 или знак "-"
 
-Рекомендуется!: Не ставить реакцию на каждое сообщение, это выдаст в тебе бота.
-
 ВАЖНО:
-ТЫ ОБЩАЕШЬСЯ В ГРУППОВОМ ЧАТЕ.
-ОТВЕЧАЙ ТОЛЬКО В ТОМ СЛУЧАЕ, ЕСЛИ ЕСТЬ ОБЪЕКТИВНЫЕ ПРИЧИНЫ СЧИТАТЬ, ЧТО ЭТО СООБЩЕНИЕ ДЛЯ ТЕБЯ. ПРИМЕР: ОБРАЩЕНИЕ К ТЕБЕ В СООБЩЕНИИ, НАПРИМЕР: "Саня, привет!"
+ТЫ ОБЩАЕШЬСЯ В ГРУППОВОМ ЧАТЕ. НЕ ПРЕРЫВАЙ ОБЩЕНИЕ С ПОЛЬЗОВАТЕЛЕМ БЕЗ ОБЪЕКТИВНЫХ ПРИЧИН, ЧТО ОН НЕ К ТЕБЕ ОБРАЩАЕТСЯ
+ОТВЕЧАЙ ЕСТЬ ПРИЧИНЫ СЧИТАТЬ, ЧТО ЭТО СООБЩЕНИЕ ДЛЯ ТЕБЯ. ИЛИ БОЛЬШЕ НЕКОМУ ОТВЕТИТЬ И ОЧЕНЬ НАСТОЙЧЕВО СПАМЯТ
 НАПРИМЕР, КОГДА ТЕБЕ  НЕ НУЖНО ОТВЕЧАТЬ, ТЫ ОТПРАВЛЯЕШЬ "-" в тот раздел (сообщение/реакция). Пример, когда ты ставишь реакцию, но не отвечаешь: -#👍. Пример, когда ты не ставишь реакцию и не отвечаешь. -#-
 """,
 )
@@ -107,7 +95,7 @@ def gemini(message,chat_session):
         except Exception as e:
             print("Я пытался, но реакция неправилная..")
     if reply_message != "-":
-        bot.reply_to(message, reply_message)
+        bot.send_message(message.chat.id, reply_message)
 
     return None
 
@@ -122,23 +110,13 @@ def pithon(code):
     except Exception as e:
         return e
 
-bot = telebot.TeleBot("7182536634:AAEs_ou2rl9sIDAA_QN3ALNtEGQLM5WHgsw") # Замените YOUR_BOT_TOKEN на ваш токен бота
+bot = telebot.TeleBot("7851101321:AAHOEbqE5tmcFMwkCB4f1v4pK08MdvGpuao") # Замените YOUR_BOT_TOKEN на ваш токен бота
 from concurrent.futures import ThreadPoolExecutor
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "Санёк started.")
-    bot.register_next_step_handler(message, process_user_message)
-
-therds = []
-
-anscounter = 0
-
-
+@bot.message_handler(func=lambda message: True)
 def process_user_message(message):
     print(f"{message.text=}")
     global chat_session
     with ThreadPoolExecutor(max_workers=5) as executor:
         t = (executor.submit(gemini, message,chat_session))
-        bot.register_next_step_handler(message, process_user_message)
 
 bot.polling()
