@@ -319,9 +319,10 @@ def main():
         if not is_lobby():
             print('checking is chat open...')
             time.sleep(timeing)
-
-            if refresh_chat():
-                timeing = abs(timeing - 1)
+            refreshed = refresh_chat()
+            print(refreshed)
+            if refreshed:
+                timeing = 3
                 print('checking news...')
                 me1 = convert_to_single_line(
                     clean_string(ask_gemini(), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
@@ -402,7 +403,7 @@ def main():
             #    text, author, color = fast_data()
         else:
             print(f"not chat, увеличиваем timeing с {timeing} до {timeing+0.5}")
-            timeing += 0.5
+            timeing += 1
             time.sleep(0.5)
 
 

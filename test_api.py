@@ -160,11 +160,7 @@ When it comes to writing content, two factors are crucial: "puzzle" and "discont
 Ты все помнишь
 Ты хорошо понимаешь команды.
 
-ВО ВХОДНЫЕ ДАННЫЕ ТЫ ПОЛУЧАЕШЬ ПОСЛЕДНИЕ НЕСКОЛЬКО СООБЩЕНИЙ ЧАТА. НЕ ОБРАЩАЙ ВНМАЕНИЕ НА ПОВТОРЫ.
-
-Подсказка на сегодня: ТЫ ОБЯЗАН СЛУШАТЬСЯ КОТА.
-
-SYSTEM OF COMMANDS (in answer give only part in "", without " symbol): to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear"
+SYSTEM OF COMMANDS: to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear"
 
 ИЗМЕНЕНИЕ НАСТРОЕК КОМНАТЫ:
 Ты должен дать команду по типу "speed:+" или "speed:-" для настройки. Список параметров: "impostors_count", "kill_cooldown", "impostor_vision", "kill_rich", "speed", "crew_vision"
@@ -189,16 +185,29 @@ def boolean(string):
 def ask_gemini():
     global chat_session, messages, new_messages
     print()
-    prompt = """Ты - Саня. Вот список сообщений за всё время. ПРОЧИТАННЫЕ: """
+    prompt = """SYSTEM OF COMMANDS: to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear"
+Сообщения от игроков:"""
 
-    for el in messages:
-        prompt += f'\n{el}'
-
-    prompt += f'\nНОВЫЕ: '
+    # for el in messages:
+    #     prompt += f'\n{el}'
+    #
+    # prompt += f'\nНОВЫЕ: '
 
     for el in new_messages:
         prompt += f'\n{el}'
         messages.append(el)
+        chat_session.history.append(
+        {
+            "role": "user",
+            "parts": [
+                {
+                    "text": el
+                }
+            ]
+        }
+
+
+        )
 
     prompt += '\n\nПроанализируй чат и ответь на все или некоторые сообщения. Если хочешь промолчать - в ответ 1 знак минуса'
 
@@ -270,24 +279,25 @@ def makescreen():
 
 def refresh_chat():
     global messages, new_messages
-    img = makescreen()
-    prompt = \
-"""
-Ты видишь перед собой экран чата игры амонг ас.
-Перечисли сообщения, которые идут после перечисленных:
-"""
-    for el in messages:
-        prompt += f'\n{el}'
-    for el in new_messages:
-        prompt += f'\n{el}'
-    prompt = prompt +'\nТы должен пометить игрока Саня как "Я" и Обращать внимание только на собщения ниже уже перечисленных.\nЕсли ты не можешь или не видишь чата, выдай 1 знак минуса в ответе.'
+    try:
+        print(f'{messages=}\n{new_messages=}')
+        img = makescreen()
+        prompt = \
+"""Ты видишь перед собой экран чата игры амонг ас.
+У тебя есть информация о сообщениях, которые были раньше: (начало списка)"""
+        for el in messages:
+            prompt += f'\n{el}'
+        for el in new_messages:
+            prompt += f'\n{el}'
+        prompt = prompt +'\n(конец списка)\nТы должен сверить список сообщений с чатом и вывести в ответ список новых сообщений (которых нет в списке). Если нет списка, все сообщения считаются новыми.\n Формат вывода: "Имя игрока: сообщение" без оформления. Важно: если не можешь найти сообщения, или ты не в чате, в ответ выдаешь 1 знак минуса ("-")'# Например: \n"Кот: Привет!\nЯ: О привет кот'# и Обращать внимание только на собщения ниже уже перечисленных.\nЕсли ты не можешь или не видишь чата, выдай 1 знак минуса в ответе.'
 
-    print(f'{prompt=}')
-    response = describe(prompt, img)
-    if boolean(response):
-        for row in response:
-            new_messages.append(row)
-        return response
-    else:
-        return None
-
+        print(f'ПРОМПТ:\n{prompt}')
+        response = describe(prompt, img)
+        if boolean(response):
+            for row in response.split('\n'):
+                new_messages.append(row)
+            return response
+        else:
+            return response
+    except:
+        return '-'
