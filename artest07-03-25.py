@@ -303,7 +303,7 @@ def capture_screenshot(monitor_data):
         img_np = np.frombuffer(sct_img.bgra, dtype=np.uint8).reshape(sct_img.height, sct_img.width, 4)
         img_np = img_np[..., :3][:, :, ::-1]  # BGRA -> RGB
         img = Image.fromarray(img_np)
-        img = img.resize((320, 180))  # Resize for comparison
+        img = img.resize((320, 180))
         return img, np.array(img)
 
 
@@ -408,5 +408,9 @@ def main():
 
 
 if __name__ == "__main__":
+    # while True:
+    #     send_chat('мяу мяу мяу мяу мяу мяу мяу мяу мяу мяу')
+    #     time.sleep(2.5)
+    # exit()
     main()
     send_chat("Бляя... Я сломался")
