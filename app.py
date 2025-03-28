@@ -6,4 +6,4 @@ response = client.chat.completions.create(
     messages=[{"role": "user", "content": "Hello"}],
     # Add any other necessary parameters
 )
-print(response.choices[0].message.content)
+print(response.choices[0].message.content) #commentariy that commite!
