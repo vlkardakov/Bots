@@ -14,19 +14,9 @@ import requests
 # proxy = 'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'
 # os.environ['http_proxy'] = proxy
 keys_proxies = [
-    {"key":"AIzaSyBm8TubjcNxTtzlZgElnY5ZuCXkADCAQRE", "proxy":'http://vova:2213@193.124.133.94:35068'},#1z`
-    {"key":'AIzaSyAthBC1Ew0-TTUBnJtpndD44I-7ZWvPhcw', "proxy":'http://vova:2213@193.124.133.184:38562'},#vity 19
-    {'key':"AIzaSyCL9WRRrGeCAAfWi-iLEwAkW1DLvepIRcY", "proxy":'http://germ:germ@194.31.73.4:38064'}, #v0681197@gmail.com
-    {'key':"AIzaSyA25EIdaG7hmsjF5Ry3GrroW0d0g24Oj5s", "proxy":'http://germ:germ@194.31.73.199:21863'}, # vitya.kardakov19@gmail.com
-    {'key':"AIzaSyDW3nj2rrEuJBNNMfybumVxVfZn2_wyOB8", "proxy":'http://germ:germ@194.31.73.93:40032'}, # vikt0r19.kardakov19@gmail.com
-    {'key':"AIzaSyBnfHaqOYL3h4eer1bV7nnN7U_KuGQqGkE", "proxy":'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'}, # dcookeiw2@gmail.com
-    {'key':"AIzaSyBlHuFi5ErL0HcX-v4NVmGhbv9YWQIxFiY", "proxy":'http://nether:nether@193.124.133.20:26252'},#james turner
-    {'key':"AIzaSyDydbXBJN5bYG3vYq1N0tUf6lUqCZpb5dc", "proxy":'http://germ:germ@194.31.73.174:21348'},# Linda Smith
-    {'key':"AIzaSyA4h7opCsaT7GrymPQTNEQZzmkfWgb1Bmw", "proxy":'http://nether:nether@193.124.133.213:20371'},# Sharon Hall
-    {'key':"AIzaSyDL3h0_tJEkV3UDK8U2A7UTfpejnkL8HBw", "proxy":'http://nether:nether@193.124.133.185:49789'},# Linda Collins
-    {"key": 'AIzaSyCpI5SpoP5T44PXGyi-uyHKV-g0N66eNFA', "proxy": 'http://vova:2213@193.124.133.151:53136'},  # балбоб
-    #'',
-    #'',
+    {"key":'AIzaSyAYM2EwkOiTCjJQb709emY9Jnv72pmv0OI', "proxy":'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'}, #ПЛАТЁЖНЫЙ
+    {"key":'AIzaSyAYM2EwkOiTCjJQb709emY9Jnv72pmv0OI', "proxy":'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'}, #ПЛАТЁЖНЫЙ
+    {"key":'AIzaSyAYM2EwkOiTCjJQb709emY9Jnv72pmv0OI', "proxy":'http://hAnuPVxQqi:DgH2Yc44lq@109.120.129.171:59597'}, #ПЛАТЁЖНЫЙ
 ]
 #AIzaSyBlHuFi5ErL0HcX-v4NVmGhbv9YWQIxFiY #james turner
 #AIzaSyDydbXBJN5bYG3vYq1N0tUf6lUqCZpb5dc # Linda Smith
@@ -79,8 +69,9 @@ safety_settings = [
 os.environ["http_proxy"] = "http://germ:germ@194.31.73.93:40032"
 
 model = genai.GenerativeModel(
-  #model_name="gemini-2.0-flash-exp",
-  model_name="gemini-1.5-flash",
+  # model_name="gemini-2.0-flash-exp",
+  model_name="gemini-1.5-pro",
+  # model_name="gemini-1.5-flash",
   #model_name="gemini-2.0-flash-thinking-exp-1219",
   #model_name="learnlm-1.5-pro-experimental",
   safety_settings=safety_settings,
@@ -183,14 +174,16 @@ chat_session = model.start_chat(
 def boolean(string):
     return string != '-'
 
+step = 'В ЛОББИ'
+
 def ask_gemini():
-    global chat_session, messages, new_messages, description
+    global chat_session, messages, new_messages, description, step
     print()
-    prompt = """SYSTEM OF COMMANDS: to start the game, ЧТОБЫ НАЧАТЬ ИГРУ (Обычно нужно начать несколько раз) - "start". To turn yourself off, ЧТОБЫ ВЫКЛЮЧИТЬСЯ - "off". To save your memory, ЧТОБЫ СОХРАНИТЬСЯ, ЧТОБЫ ЗАСЕЙВИТЬСЯ - "save". To clear TODAY MEMORY, чтобы очистить память на сегодня - "clear"
-Не используй смайлики из символов!!
+    prompt = """
+ГЛАВНАЯ ЗАДАЧА: НЕ РАЗГОВАРИВАТЬ, А ПРОСТО ПЫТАТЬСЯ ОБЫГРАТЬ ВСЕХ В ЧАТЕ В СМАЙЛИКИ, СОЗДАВАЯ ВСЕ БОЛЕЕ СЛОЖНЫЕ И ОГРОМНЫЕ СМАЙЛИКИ ИЗ СИМВОЛОВ
 Сообщения от игроков:"""
 
-    # for el in messages:
+    # for el in messages: f
     #     prompt += f'\n{el}'
     #
     # prompt += f'\nНОВЫЕ: '
@@ -200,7 +193,7 @@ def ask_gemini():
         messages.append(el)
         chat_session.history.append(
         {
-            "role": "user",
+            "role": "model" if 'саня' in el.lower().split(':')[0] else "user",
             "parts": [
                 {
                     "text": el
@@ -211,9 +204,11 @@ def ask_gemini():
 
         )
 
-    prompt += f'\n\nПроанализируй чат и ответь на все или некоторые сообщения. Если хочешь промолчать - в ответ 1 знак минуса. Вот обстоятельства: {description}'
+    prompt += f'\n\nПроанализируй чат и ответь на все или некоторые сообщения. Если хочешь промолчать - в ответ 1 знак минуса. Вот обстоятельства: {step}'
 
     new_messages = []
+
+    print(f"{prompt=}")
 
     response = chat_session.send_message(prompt)
     model_response = response.text #.split("$")[1]
@@ -222,7 +217,10 @@ def ask_gemini():
     me = model_response
     print(me)
 
-    return model_response
+    # if len(me.split(':')) > 1:
+    #     me = me.split(':')[1]
+
+    return me.replace('\-', '-')
 
 def describe(zapros, img):
     global key_index, keys_proxies, zaprosi_history, current_key
@@ -253,7 +251,9 @@ def describe(zapros, img):
         # os.environ['HTTPS_PROXY'] = current_proxy
         genai.configure(api_key=current_key)
 
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.5-pro')
+        # model = genai.GenerativeModel('gemini-1.5-flash')
+        # model = genai.GenerativeModel("gemini-1.5-flash-8b")
 
         response = model.generate_content([
             f"запрос пользователя: {zapros}",
@@ -274,6 +274,7 @@ def describe(zapros, img):
             print('errrrr')
     except KeyboardInterrupt:
         return '-'
+
 def makescreen():
     with mss() as sct:
         monitor = sct.monitors[1]  # Primary monitor
@@ -294,12 +295,12 @@ def refresh_chat():
             prompt += f'\n{el.replace("-","")}'
         for el in new_messages[-5:]:
             prompt += f'\n{el.replace("-","")}'
-        prompt = prompt +'\n(конец списка)\nТы должен сверить список сообщений с чатом и вывести в ответ список новых сообщений (которых нет в списке). Если нет списка, все сообщения считаются новыми.\n Формат вывода: "Имя игрока: сообщение" без оформления. В последней строке, напиши: "#Описание обстановки на скриншоте вообще вссего" '# Если не можешь найти НОВЫЕ, в ответ выдаешь 1 знак минуса ("-"). Подсказка: Сначала собери список сообщений из чата на фото, потом сравни.'# Например: \n"Кот: Привет!\nЯ: О привет кот'# и Обращать внимание только на собщения ниже уже перечисленных.\nЕсли ты не можешь или не видишь чата, выдай 1 знак минуса в ответе.'
+        prompt = prompt +'\n(конец списка)\nТы должен сверить список сообщений с чатом и вывести в ответ список новых сообщений (которых нет в списке). Если нет списка, все сообщения считаются новыми.\n Формат вывода: "Имя игрока: сообщение" без оформления. ВАЖНО!!! ВАЖНО: Если не можешь найти НОВЫЕ, в ответ выдаешь 1 знак минуса ("-"). Подсказка: Сначала собери список сообщений из чата на фото, потом сравни.'# Например: \n"Кот: Привет!\nЯ: О привет кот'# и Обращать внимание только на собщения ниже уже перечисленных.\nЕсли ты не можешь или не видишь чата, выдай 1 знак минуса в ответе.'
 
         print(f'ПРОМПТ:\n{prompt}')
         all = describe(prompt, img).split('#')
         response = all[0]
-        description = all[1]
+        # description = all[1]
         if boolean(response):
             for row in response.split('\n'):
                 new_messages.append(row)
@@ -310,3 +311,6 @@ def refresh_chat():
         return e
     except KeyboardInterrupt:
         return '-'
+
+if __name__ == "__main__":
+    print(describe('Что ты тут видишь?', makescreen()))

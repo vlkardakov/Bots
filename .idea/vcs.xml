@@ -6,6 +6,9 @@
     <mapping directory="$PROJECT_DIR$/LeakSearch" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/MalumMenu" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SmsToolsN" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Voyager" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/amongUsParser" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/minecraftbot/Voyager" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/minecraftbot/agentcraft" vcs="Git" />
   </component>
 </project>

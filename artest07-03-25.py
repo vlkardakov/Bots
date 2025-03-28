@@ -3,15 +3,26 @@ import os
 import pytesseract
 from PIL import Image
 import mss
+import pyautogui as pg
 import cv2 as cv
 import numpy as np
 import time
-from time import sleep
-from ultralytics import YOLO
+# from time import sleep
+# from ultralytics import YOLO
 from concurrent.futures import ThreadPoolExecutor
-from arestarmongus3 import _chat, what_step, change_params
+from arestarmongus3 import _chat, change_params
 import os
 from dotenv import load_dotenv
+
+import threading
+import datetime
+import numpy as np
+import signal
+import sys
+from pynput import keyboard
+
+from record_video import record_video
+from video_analyzer import process_video, AnalysisMode
 
 load_dotenv()
 import subprocess
@@ -287,7 +298,6 @@ def load_data(name):
 from memory import *
 from checkthechat import check_the_chat
 from test_api import *
-from describe_screen import describe
 from arestarmongus3 import _start
 import pickle
 
@@ -309,108 +319,124 @@ def capture_screenshot(monitor_data):
 
 import re
 
+def what_step():
+    response = describe('ОПИШИ СКРИНШОТ И ВЫБЕРИ, ГДЕ НАХОДИТСЯ ПОЛЬЗОВАТЕЛЬ В ИГРЕ АМОНГ АС: В ЛОББИ , В ЗАГРУЗКЕ ИГРЫ, В ИГРЕ, НА ГОЛОСОВАНИИ, КОНЕЦ ИГРЫ, ВНЕ ИГРЫ. В ОТВЕТ ВЫДАЙ ТОЛЬКО СЛОВО ИЛИ СОЧЕТАНИЕ СЛОВ, ВЫБРАВ 1 ИЗ СПИСКА. ПРИМЕР: `В ЛОББИ`', makescreen())
+    return response.strip().upper()
+
+def restartTheGame():
+    coords = (1800, 930)
+    pg.click(coords)
+    time.sleep(0.5)
+    pg.click(coords)
+
 
 def main():
-    global result_coding, chat_session, messages, new_messages
+    global result_coding, chat_session, messages, new_messages, step
     timeing = 5
 
     while True:
-        _chat()
-        if not is_lobby():
-            print('checking is chat open...')
-            time.sleep(timeing)
-            refreshed = refresh_chat()
-            print(refreshed)
-            if refreshed:
-                timeing = 3
-                print('checking news...')
-                me1 = convert_to_single_line(
-                    clean_string(ask_gemini(), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
-                if not me1.replace("\n", "").strip() == "-":
-                    print('Проверка на команды')
+        for _ in range(3):
+            _chat()
+            if not is_lobby():
+                print('checking is chat open...')
+                # time.sleep(timeing)
+                refreshed = refresh_chat()
+                print(refreshed)
+                if refreshed:
+                    timeing = 3
+                    print('checking news...')
+                    me1 = convert_to_single_line(
+                        clean_string(ask_gemini(), ["[", "]", "<", ">", r"\n", "\n"]).replace("\n", ""))
+                    if not me1.replace("\n", "").strip() == "-":
+                        print('Проверка на команды')
 
-                    if "start" in me1:
-                        send("{Esc}")
-                        time.sleep(0.2)
-                        _start()
-                        _chat()
-                    if "off" in me1:
-                        send_chat(me1)
+                        if "start" in me1:
+                            send("{Esc}")
+                            time.sleep(0.2)
+                            _start()
+                            _chat()
+                        if "off" in me1:
+                            send_chat(me1)
+                            time.sleep(1)
+                            send_chat("SAVING MEMORY AND TURNING OFF...")
+                            with open('chat_history.pkl', 'wb') as f:
+                                pickle.dump(chat_session.history, f)
+                            exit()
+                        if "save" in me1:
+                            with open('chat_history.pkl', 'wb') as f:
+                                pickle.dump(chat_session.history, f)
+                        if "clear" in me1:
+                            with open('chat_history.pkl', 'rb') as cs:
+                                chat_session.history = pickle.load(cs)
+
+                        if 'impostors_count:+' in me1:
+                            change_params("impostors_count:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'impostors_count:-' in me1:
+                            change_params("impostors_count:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'speed:+' in me1:
+                            change_params("speed:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'speed:-' in me1:
+                            change_params("speed:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'kill_rich:+' in me1:
+                            change_params("kill_rich:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'kill_rich:-' in me1:
+                            change_params("kill_rich:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'impostor_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'impostor_vision:-' in me1:
+                            change_params("impostor_vision:-1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'crew_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        if 'crew_vision:+' in me1:
+                            change_params("impostor_vision:1")
+                            time.sleep(0.4)
+                            _chat()
+                        print(me1)
+
+                        for el in me1.split("%"):
+                            send_chat(el)
+                            if el != me1.split("%")[-1]:
+                                time.sleep(2.4)
+                    else:
+                        print("not sending, sleep")
                         time.sleep(1)
-                        send_chat("SAVING MEMORY AND TURNING OFF...")
-                        with open('chat_history.pkl', 'wb') as f:
-                            pickle.dump(chat_session.history, f)
-                        exit()
-                    if "save" in me1:
-                        with open('chat_history.pkl', 'wb') as f:
-                            pickle.dump(chat_session.history, f)
-                    if "clear" in me1:
-                        with open('chat_history.pkl', 'rb') as cs:
-                            chat_session.history = pickle.load(cs)
+            else:
+                print(f"not chat, увеличиваем timeing с {timeing} до {timeing+0.5}")
+                timeing += 1
+                time.sleep(0.5)
 
-                    if 'impostors_count:+' in me1:
-                        change_params("impostors_count:1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'impostors_count:-' in me1:
-                        change_params("impostors_count:-1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'speed:+' in me1:
-                        change_params("speed:1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'speed:-' in me1:
-                        change_params("speed:-1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'kill_rich:+' in me1:
-                        change_params("kill_rich:1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'kill_rich:-' in me1:
-                        change_params("kill_rich:-1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'impostor_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'impostor_vision:-' in me1:
-                        change_params("impostor_vision:-1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'crew_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                        time.sleep(0.4)
-                        _chat()
-                    if 'crew_vision:+' in me1:
-                        change_params("impostor_vision:1")
-                        time.sleep(0.4)
-                        _chat()
-                    print(me1)
-
-                    for el in me1.split("%"):
-                        send_chat(el)
-                        if el != me1.split("%")[-1]:
-                            time.sleep(2.4)
-                else:
-                    print("not sending, sleep")
-                    time.sleep(4)
-            # while text == last_text and author == last_author:
-            #    #print("text and author last")
-            #    time.sleep(0.5)
-            #    text, author, color = fast_data()
-        else:
-            print(f"not chat, увеличиваем timeing с {timeing} до {timeing+0.5}")
-            timeing += 1
-            time.sleep(0.5)
+        # step = what_step()
+        # if step == "КОНЕЦ ИГРЫ":
+        #     restartTheGame()
+        # elif step == "В ИГРЕ":
+        #     ask_gemini()
+        # elif step in ("ВНЕ ИГРЫ", ''):
+        #     time.sleep(10)
 
 
 if __name__ == "__main__":
     # while True:
-    #     send_chat('мяу мяу мяу мяу мяу мяу мяу мяу мяу мяу')
+    #     send_chat('МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ МЯУ ')
     #     time.sleep(2.5)
+    #
     # exit()
     main()
     send_chat("Бляя... Я сломался")

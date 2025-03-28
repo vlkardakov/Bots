@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 monum = int(os.getenv("monitor"))
 
-#model = YOLO('2.pt')
+# yolo_model = YOLO('2.pt')
 #time.sleep(2)
 
 def send(text):
@@ -58,6 +58,7 @@ def fafind(template,treshold,do_click):
 pyautogui.moveTo(800,500)
 print("starting")
 def what_step():
+    global yolo_model
     # Сделать скриншот экрана
     screen = pyautogui.screenshot()
 
@@ -69,7 +70,7 @@ def what_step():
     image = cv.resize(image, (640, 640))
 
     # Обработать скриншот с помощью модели YOLO
-    results = model(image)[0]
+    results = yolo_model(image)[0]
 
     names = results.names
     #print("Top 1 Class Name : {}".format(names[results.probs.top1]))

@@ -45,6 +45,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -69,6 +70,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vlkardakov\Documents\1\Bots\minecraftbot" />
       <recent name="C:\Users\vlkardakov\Documents\1\Bots" />
       <recent name="C:\Users\vlkardakov\Documents\1\Bots\ai_sites_classify" />
       <recent name="C:\Program Files\jarvis-app\Yolo_amogus\Yolo-expirience" />
@@ -171,8 +173,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_api.py</url>
-          <line>283</line>
+          <url>file://$PROJECT_DIR$/minecraftbot/checkthechat.py</url>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
